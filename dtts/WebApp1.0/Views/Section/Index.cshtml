@@ -1,0 +1,150 @@
+﻿@model WebApp1._0.Models.DBContext
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+}
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="widget flat radius-bordered">
+                        <div class="widget-header bg-blue">
+                            <span class="widget-caption">Section Form</span>
+                        </div>
+                        <div class="widget-body">
+                            <div id="registration-form">
+                                <!--<div class="form-title">User Information</div>-->
+                                @using (Html.BeginForm("SaveSection", "Section", FormMethod.Post))
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form=group">
+                                                <span class="input-icon icon-right">
+                                                    <select id="ref_subdivisionid" name="ref_subdivisionid" style="width:100%;" required>
+                                                        <option value="" />Select SubDiv
+                                                        @foreach (var subdiv in @Model.obj_subdivResult)
+                                                        {
+                                                            <option value="@subdiv.subdivisionid">@subdiv.subdivisionname</option>
+                                                        }
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" class="form-control" placeholder="Section Code" name="sectioncode" id="sectioncode" required>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" class="form-control" placeholder="Section Name" name="sectionname" id="sectionname" required>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="wide" />
+                                    <input type="hidden" name="sectionid" id="sectionid" value="" />
+                                    <input type="submit" class="btn btn-success" id="sub_sec" value="Submit" name="Submit" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="widget">
+                        <div class="widget-header widget-header bg-blue">
+                            <span class="widget-caption">Sections List</span>
+                            <div class="widget-buttons">
+                                <a href="#" data-toggle="maximize">
+                                </a>
+                                <a href="#" data-toggle="collapse">
+                                </a>
+                                <a href="#" data-toggle="dispose">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+                                <thead>
+                                    <tr>
+                                        <th>Sl No.</th>
+                                        <th>Sub-Div Name</th>
+                                        <th>Section Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   @foreach (var sec in @Model.obj_sectionResult)
+                                   {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@sec.subdivisionname</td>
+                                            <td>@sec.sectionname</td>
+                                            <td>
+                                                <a class="btn btn-info btn-xs edit" title="Edit" onclick="editSection(@sec.sectionid);"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-danger btn-xs delete" title="Delete" onclick="deleteSection(@sec.sectionid);"><i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                       i++;
+                                   }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var message = '@Model.usermessage';
+        if (message != null && message != "") {
+            alert(message);
+        }
+    });
+
+    function editSection(id) {
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("EditSection", "Section")',
+            data: { id: id },
+            datatype: "json",
+            success: function (data) {
+                if (data.obj_sec != '') {
+                    $('#sub_sec').attr('value', 'Update');
+                    $.each(data.obj_sec, function (key, value) {
+                        $("#sectionid").val(value.sectionid);
+                        $("#sectionname").val(value.sectionname);
+                        $("#sectioncode").val(value.sectioncode);
+                        $("#ref_subdivisionid option[value='" + value.ref_subdivisionid + "']").attr("selected", "selected");
+                    });
+
+                }
+            }
+        });
+    }
+
+    function deleteSection(id)
+    {
+        alert("Do you really want to delete this record ?")
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("DeleteSec", "Section")',
+            data: { id: id },
+            datatype: "json",
+            success: function (data) {
+                alert("Record successfully deleted");
+                location.reload();
+            }
+        });
+    }
+</script>
+
