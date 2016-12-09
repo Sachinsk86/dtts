@@ -1,0 +1,672 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+  <meta charset="utf-8" />
+  <title>BESCOM - Distribution Transformer Tracking System</title>
+
+  <meta name="description" content="Dashboard" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="shortcut icon" href="~/Content/assets/img/favicon.png" type="image/x-icon">
+  @Styles.Render("~/Content/css")
+  <!--Fonts-->
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+  <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+  @Scripts.Render("~/bundles/jquery")
+  <style>
+    .appname {
+      font-family: Impact;
+      font-size: 22px;
+      color: #fff;
+      width: 400px;
+      margin: 5px 0 0 50px;
+      float: left;
+      text-shadow: 1px 1px 1px #000;
+    }
+  </style>
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+  <!-- Loading Container -->
+  @*<div class="loading-container">
+    <div class="loading-progress">
+      <div class="rotator">
+        <div class="rotator">
+          <div class="rotator colored">
+            <div class="rotator">
+              <div class="rotator colored">
+                <div class="rotator colored"></div>
+                <div class="rotator"></div>
+              </div>
+              <div class="rotator colored"></div>
+            </div>
+            <div class="rotator"></div>
+          </div>
+          <div class="rotator"></div>
+        </div>
+        <div class="rotator"></div>
+      </div>
+      <div class="rotator"></div>
+    </div>
+  </div>*@
+  <!--  /Loading Container -->
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-container">
+        <!-- Navbar Barnd -->
+        <div class="navbar-header pull-left">
+          <a href="#" class="navbar-brand">
+            <small>
+              <img src="~/Content/assets/img/bescomlogo.png" alt="" />
+            </small>
+          </a>
+        </div>
+        <!-- /Navbar Barnd -->
+        <!-- Sidebar Collapse -->
+        <div class="sidebar-collapse" id="sidebar-collapse">
+          <i class="collapse-icon fa fa-bars"></i>
+        </div>
+        <div class="appname">Distribution Transformer Tracking System</div>
+        <!-- /Sidebar Collapse -->
+        <!-- Account Area and Settings --->
+        <div class="navbar-header pull-right">
+          <div class="navbar-account">
+            <ul class="account-area" style="top: 20px; font-size: 16px;">
+              @*<li>
+                  <a class="wave in dropdown-toggle" data-toggle="dropdown" title="Help" href="#">
+                    <i class="icon fa fa-envelope"></i>
+                    <span class="badge">2</span>
+                  </a>
+                  <!--Messages Dropdown-->
+                  <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages">
+                    <li style="background-color:#ccc;">
+                      <a href="#">
+                        <!--<img src="assets/img/avatars/divyia.jpg" class="message-avatar" alt="Divyia Austin">-->
+                        <div class="message" style="color:#fff;font-weight:bold;font-size:14px;text-shadow:2px 1px 1px #000;">Notification</div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <!--<img src="assets/img/avatars/divyia.jpg" class="message-avatar" alt="Divyia Austin">-->
+                        <div class="message">
+                          <span class="message-sender">Transformer Failed</span>
+                          <span class="message-time">Delay: 2 Days</span>
+                          <span class="message-subject">Division: Indira Nagar</span>
+                          <span class="message-body">Reason: Short Circuit</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <!--<img src="assets/img/avatars/divyia.jpg" class="message-avatar" alt="Divyia Austin">-->
+                        <div class="message">
+                          <span class="message-sender">Transformer Failed</span>
+                          <span class="message-time">Delay: 1 Days</span>
+                          <span class="message-subject">Division: Shivaji Nagar</span>
+                          <span class="message-body">Reason: Age Expired</span>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                  <!--/Messages Dropdown-->
+                </li>*@
+
+              <li>
+                @*<a class="login-area dropdown-toggle" data-toggle="dropdown">*@
+                @*<div class="avatar" title="View your public profile">
+                    <img src="~/Content/assets/img/mysnap.jpg">
+                  </div>*@
+                <section>
+                  <span class="login-area profile">Welcome @User.username</span>
+                </section>
+                @*</a>*@
+                <!--Login Area Dropdown-->
+                @*<ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+                    <li class="username"><a>Prakash Badiger</a></li>
+                    <li class="email"><a>prakashbadiger@live.com</a></li>
+                    <!--Avatar Area-->
+                    <li>
+                      <div class="avatar-area">
+                        <!--<img src="~/Content/assets/img/mysnap.jpg" class="avatar">-->
+                        <span class="caption">Change Photo</span>
+                      </div>
+                    </li>
+                    <!--Avatar Area-->
+                    @*<li class="edit">
+                      <a href="profile.html" class="pull-left">Profile</a>
+                      <a href="#" class="pull-right">Setting</a>
+                    </li>
+                    <li class="dropdown-footer">
+                      <a href="http://priyantabag-001-site1.gtempurl.com/">
+                        Sign out
+                      </a>
+                    </li>
+                  </ul>*@
+                <!--/Login Area Dropdown-->
+              </li>
+              <!-- /Account Area -->
+              <!--Note: notice that setting div must start right after account area list.
+              no space must be between these elements-->
+              <!-- Settings -->
+            </ul>@*<div class="setting">
+                <a id="btn-setting" title="Setting" href="#">
+                  <i class="icon glyphicon glyphicon-cog"></i>
+                </a>
+              </div>*@<div class="setting-container">
+              <label>
+                <input type="checkbox" id="checkbox_fixednavbar">
+                <span class="text">Fixed Navbar</span>
+              </label>
+              <label>
+                <input type="checkbox" id="checkbox_fixedsidebar">
+                <span class="text">Fixed SideBar</span>
+              </label>
+              <label>
+                <input type="checkbox" id="checkbox_fixedbreadcrumbs">
+                <span class="text">Fixed BreadCrumbs</span>
+              </label>
+              <label>
+                <input type="checkbox" id="checkbox_fixedheader">
+                <span class="text">Fixed Header</span>
+              </label>
+            </div>
+            <!-- Settings -->
+          </div>
+        </div>
+        <!-- /Account Area and Settings -->
+      </div>
+    </div>
+  </div>
+  <!-- /Navbar -->
+  <!-- Main Container -->
+  <div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+      <!-- Page Sidebar -->
+      <div class="page-sidebar menu-compact" id="sidebar">
+        <!-- Page Sidebar Header-->
+        <div class="sidebar-header-wrapper">
+          <input type="text" class="searchinput" />
+          <i class="searchicon fa fa-search"></i>
+          <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
+        </div>
+        <!-- /Page Sidebar Header -->
+        <!-- Sidebar Menu -->
+        <ul class="nav sidebar-menu">
+          <!--Dashboard-->
+          @*<li class="active">
+              <a href="index.html">
+                <i class="menu-icon glyphicon glyphicon-home"></i>
+                <span class="menu-text"> Home </span>
+              </a>
+            </li>
+            <li>
+              <a href="index.html">
+                <i class="menu-icon glyphicon glyphicon-dashboard"></i>
+                <span class="menu-text"> Dashboard </span>
+              </a>
+            </li>*@
+          <!--Databoxes-->
+          @*<li>
+              <a href="databoxes.html" class="menu-dropdown">
+                <i class="menu-icon glyphicon glyphicon-tasks"></i>
+                <span class="menu-text"> Master Data </span>
+                <i class="menu-expand"></i>
+              </a>
+              <ul class="submenu">
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Users </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="user.html">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="viewuserlist.html">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Roles </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Zones </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="zone.html">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Circles </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="circle.html">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Division </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Sub Division </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Status </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Procurement Reasons </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Failure Reason </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Vendors </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="vendor.html">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Transformer Capacity</span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Transformers </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="transformer.html">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> SLA Mgmt </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Escalation Matrix </span>
+                    <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-file"></i>
+                        <span class="menu-text"> Create </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> View List </span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="menu-dropdown">
+                    <span class="menu-text"> Transformer Shift Mgmt </span>
+                  </a>
+                </li>
+              </ul>
+            </li>*@
+          <!--Widgets-->
+          @*<li>
+              <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-ticket"></i>
+                <span class="menu-text"> Ticket </span>
+                <i class="menu-expand"></i>
+              </a>
+              <ul class="submenu">
+                <li>
+                  <a href="ticket.html">
+                    <i class="menu-icon fa fa-file"></i>
+                    <span class="menu-text"> Create </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="viewticket.html">
+                    <i class="menu-icon fa fa-list-alt"></i>
+                    <span class="menu-text"> View </span>
+                  </a>
+                </li>
+              </ul>
+            </li>*@
+          @*<li>
+              <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-flash"></i>
+                <span class="menu-text"> Reports </span>
+                <i class="menu-expand"></i>
+              </a>
+              <ul class="submenu">
+                <li>
+                  <a href="installedtransformer.html">
+                    <i class="menu-icon fa fa-sort-amount-asc"></i>
+                    <span class="menu-text"> Installed Transfmr </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="menu-icon fa fa-code-fork"></i>
+                    <span class="menu-text"> Failed Transfmr </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="dtcfailedstats.html">
+                    <i class="menu-icon fa fa-bar-chart-o"></i>
+                    <span class="menu-text"> Consolidated </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">
+                <i class="menu-icon fa fa-qrcode"></i>
+                <span class="menu-text"> Escalation Details </span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="menu-icon fa fa-qrcode"></i>
+                <span class="menu-text"> Inventory </span>
+              </a>
+            </li>*@
+          <!--Mail-->
+          @*<li>
+              <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-envelope-o"></i>
+                <span class="menu-text"> Notifications </span>
+              </a>
+            </li>*@
+          <li>
+            <a href=@Url.Action("Index","User") class="menu-dropdown">
+              <i class="menu-icon fa fa-file"></i>
+              <span class="menu-text"> User </span>
+            </a>
+          </li>
+          <li>
+            <a href=@Url.Action("Index","Zone") class="menu-dropdown">
+              <i class="menu-icon fa fa-qrcode"></i>
+              <span class="menu-text"> Zone </span>
+            </a>
+          </li>
+          <li>
+            <a href=@Url.Action("Index","Circle") class="menu-dropdown">
+              <i class="menu-icon fa fa-bar-chart-o"></i>
+              <span class="menu-text"> Circle </span>
+            </a>
+          </li>
+          <li>
+            <a href=@Url.Action("Index","Division") class="menu-dropdown">
+              <i class="menu-icon fa fa-code-fork"></i>
+              <span class="menu-text"> Division </span>
+            </a>
+          </li>
+          <li>
+            <a href=@Url.Action("Index","SubDiv") class="menu-dropdown">
+              <i class="menu-icon fa fa-flash"></i>
+              <span class="menu-text"> Sub Division </span>
+            </a>
+          </li>
+          <li>
+            <a href=@Url.Action("Index","Section") class="menu-dropdown">
+              <i class="menu-icon fa fa-list-alt"></i>
+              <span class="menu-text"> Section </span>
+            </a>
+          </li>
+          <li>
+            <a href=@Url.Action("Index","Location") class="menu-dropdown">
+              <i class="menu-icon fa fa-qrcode"></i>
+              <span class="menu-text"> Location </span>
+            </a>
+          </li>
+          <li>
+            <a href=@Url.Action("Login", "Login") class="menu-dropdown">
+              <i class="menu-icon fa fa-sign-out"></i>
+              <span class="menu-text"> Logout </span>
+            </a>
+          </li>
+        </ul>
+        <!-- /Sidebar Menu -->
+      </div>
+      <!-- /Page Sidebar -->
+      <!-- Page Content -->
+      <div class="page-content">
+        <!-- Page Breadcrumb -->
+        <div class="page-breadcrumbs">
+          <!--<ul class="breadcrumb">
+            <li>
+              <i class="fa fa-home"></i>
+              <a href="#">View Transformer Failure Tickets</a>
+            </li>
+          </ul>-->
+        </div>
+        <!-- /Page Breadcrumb -->
+        <!-- Page Header -->
+        <div class="page-header position-relative">
+          <div class="header-title">
+            @*<h1>
+                Transformers
+              </h1>*@
+          </div>
+          <!--Header Buttons-->
+          <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+              <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="">
+              <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+              <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+          </div>
+          <!--Header Buttons End-->
+        </div>
+        <!-- /Page Header -->
+        @RenderBody()
+      </div>
+    </div>
+  </div>
+  @Scripts.Render("~/bundles/bootstrap")
+  <script>
+    //InitiateSimpleDataTable.init();
+  </script>
+</body>
+<!--  /Body -->
+</html>

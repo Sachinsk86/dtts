@@ -1,0 +1,152 @@
+﻿@model WebApp1._0.Models.DBContext
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+}
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="widget flat radius-bordered">
+                        <div class="widget-header bg-blue">
+                            <span class="widget-caption">Division Form</span>
+                        </div>
+                        <div class="widget-body">
+                            <div id="registration-form">
+                                <!--<div class="form-title">User Information</div>-->
+                                @using (Html.BeginForm("SaveDiv", "Division", FormMethod.Post))
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form=group">
+                                                <span class="input-icon icon-right">
+                                                    <select id="ref_circleid" name="ref_circleid" style="width:100%;" required>
+                                                        <option value="" />Select Circle
+                                                        @foreach (var circle in @Model.obj_circlrResult)
+                                                        {
+                                                            <option value="@circle.circleid">@circle.circlename</option>
+                                                        }
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" class="form-control" placeholder="Division Code" name="divisioncode" id="divisioncode" required>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" class="form-control" placeholder="Division Name" name="divisionname" id="divisionname" required>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="wide" />
+                                    <input type="hidden" name="divisionid" id="divisionid" value="" />
+                                    <input type="submit" class="btn btn-success" id="divid" value="Submit" name="Submit" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="widget">
+                        <div class="widget-header widget-header bg-blue">
+                            <span class="widget-caption">Divisions List</span>
+                            <div class="widget-buttons">
+                                <a href="#" data-toggle="maximize">
+                                </a>
+                                <a href="#" data-toggle="collapse">
+                                </a>
+                                <a href="#" data-toggle="dispose">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+                                <thead>
+                                    <tr>
+                                        <th>Sl No.</th>
+                                        <th>Circle Name</th>
+                                        <th>Division Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var rows in Model.obj_divResult)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@rows.circlename</td>
+                                            <td>@rows.divisionname</td>
+                                            <td>
+                                                <a class="btn btn-info btn-xs edit" title="Edit" onclick="editdivision(@rows.divisionid);"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-danger btn-xs delete" title="Delete" onclick="deleteDiv(@rows.divisionid);"><i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var message = '@Model.usermessage';
+        if (message != null && message != "") {
+            alert(message);
+        }
+    });
+    function editdivision(id) {
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("EditDivision", "Division")',
+            data: { id: id },
+            datatype: "json",
+            success: function (data) {
+                if (data.obj_div != '') {
+                    $('#divid').attr('value', 'Update');
+                    $.each(data.obj_div, function (key, value) {
+                        $("#divisionid").val(value.divisionid);
+                        $("#divisionname").val(value.divisionname);
+                        $("#divisioncode").val(value.divisioncode);
+                        $("#ref_circleid option[value='" + value.ref_circleid + "']").attr("selected", "selected");
+                    });
+
+                }
+            }
+        });
+    }
+    function deleteDiv(id)
+    {
+        alert("Do you really want to delete this record ?")
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("DeleteDiv", "Division")',
+            data: { id: id },
+            datatype: "json",
+            success: function (data) {
+                alert("Record successfully deleted");
+                location.reload();
+            }
+        });
+    }
+</script>
+
+
+
+
+

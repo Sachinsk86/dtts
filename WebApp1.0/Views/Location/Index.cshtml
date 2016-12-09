@@ -1,0 +1,306 @@
+﻿@model WebApp1._0.Models.DBContext
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+}
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="widget flat radius-bordered">
+                        <div class="widget-header bg-blue">
+                            <span class="widget-caption">Location Form</span>
+                        </div>
+                        <div class="widget-body">
+                            <div id="registration-form">
+                                <!--<div class="form-title">User Information</div>-->
+                                @using (Html.BeginForm("Index", "Location", FormMethod.Post))
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-3 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <h6>Zone</h6>
+                                                    <select id="zone" name="ref_zoneid" style="width:100%;">
+                                                        <option value="">Select Zone</option>
+                                                        @foreach (var zn in Model.obj_zone)
+                                                        {
+                                                            if (Model.obj_location.ref_zoneid != 0 && Model.obj_location.ref_zoneid == zn.zoneid)
+                                                            {
+                                                                <option value="@zn.zoneid" selected>@zn.zonename</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@zn.zoneid">@zn.zonename</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <h6>Circle</h6>
+                                                    <select id="circle" name="ref_circleid" style="width:100%;"></select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <h6>Division</h6>
+                                                    <select id="division" name="ref_divisionid" style="width:100%;"></select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <h6>Sub Division</h6>
+                                                    <select id="subdivision" name="ref_subdivisionid" style="width:100%;"></select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <h6>Section</h6>
+                                                    <select id="section" name="ref_sectionid" style="width:100%"></select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <h6>Location Code</h6>
+                                                    <input type="text" class="form-control" name="locationcode" id="locationcode">
+                                                    @*<select id="tcode" style="width:100%"></select>*@
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <h6>Location Name</h6>
+                                                    <input type="text" class="form-control" name="locationname" id="locationname">
+                                                    @*<select id="tcode" style="width:100%"></select>*@
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="wide" />
+                                    <button type="submit" class="btn btn-success">Create Location</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget">
+                <div class="widget-header widget-header bg-blue">
+                    <span class="widget-caption">Locations List</span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize">
+                        </a>
+                        <a href="#" data-toggle="collapse">
+                        </a>
+                        <a href="#" data-toggle="dispose">
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+                        <thead>
+                            <tr>
+                                <th>Sl No.</th>
+                                <th>Location Name</th>
+                                <th>Zone Name</th>
+                                <th>Circle Name</th>
+                                <th>Division Name</th>
+                                <th>Subdivision Name</th>
+                                <th>Section Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var rows in Model.obj_transformerSuppCode)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@rows.locationname</td>
+                                    <td>@rows.zonename</td>
+                                    <td>@rows.circlename</td>
+                                    <td>@rows.divisionname</td>
+                                    <td>@rows.subdivisionname</td>
+                                    <td>@rows.sectionname</td>                                    
+                                    <td>
+                                        <a class="btn btn-info btn-xs edit" title="Edit" onclick="editLocationsDetails(@rows.locationid);"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-danger btn-xs delete" title="Delete" onclick="deleteUser(@rows.locationid);"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var message = '@Model.usermessage';
+        if (message != null && message != "") {
+            alert(message);
+        }
+    });
+
+
+    $("#zone").change(function () {
+        var zoneId = $("#zone").val();
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetCircle", "Dashboard")',
+            data: { ZoneId: zoneId },
+            datatype: "json",
+            success: function (data) {
+                if (data.obj_circle != "") {
+                    $("#circle").html("");
+                    var appData = '';
+                    var circId = '@Model.obj_location.ref_circleid';
+                    appData += '<option value="">Select Circle</option>';
+                    $.each(data.obj_circle, function (key, value) {
+                        appData += '<option value="' + value.circleid + '">' + value.circlename + '</option>';
+                    });
+                    $("#circle").append(appData);
+                    if (circId != "" && circId != 0) {
+                        $("#circle option[value='" + circId + "']").prop("selected", "selected");
+                        $("#circle").trigger("change");
+                    }
+                }
+            }
+        });
+    });
+
+    $("#circle").change(function () {
+        var circleId = $("#circle").val() ? $("#circle").val() : '@Model.obj_location.ref_circleid';
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetDivision", "Dashboard")',
+            data: { circleId: circleId },
+            datatype: "json",
+            success: function (data) {
+                if (data.obj_circle != "") {
+                    $("#division").html("");
+                    var appData = '';
+                    var divId = '@Model.obj_location.ref_divisionid';
+                    appData += '<option value="">Select Division</option>';
+                    $.each(data.obj_division, function (key, value) {
+                        appData += '<option value="' + value.divisionid + '">' + value.divisionname + '</option>';
+                    });
+                    $("#division").append(appData);
+                    if (divId != "" && divId != 0) {
+                        $("#division option[value='" + divId + "']").prop("selected", "selected");
+                        $("#division").trigger("change");
+                    }
+                }
+            }
+        });
+    });
+
+
+
+    $("#division").change(function () {
+        var divisionId = $("#division").val() ? $("#division").val() : '@Model.obj_location.ref_divisionid';
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetSubDivision", "Dashboard")',
+            data: { divisionId: divisionId },
+            datatype: "json",
+            success: function (data) {
+                if (data.obj_subdivision != "") {
+                    $("#subdivision").html("");
+                    var appData = '';
+                    var sbId = '@Model.obj_location.ref_subdivisionid';
+                    appData += '<option value="">Select Sub Division</option>';
+                    $.each(data.obj_subdivision, function (key, value) {
+                        appData += '<option value="' + value.subdivisionid + '">' + value.subdivisionname + '</option>';
+                    });
+                    $("#subdivision").append(appData);
+                    if (sbId != "" && sbId != 0) {
+                        $("#subdivision option[value='" + sbId + "']").prop("selected", "selected");
+                        $("#subdivision").trigger("change");
+                    }
+                }
+            }
+        });
+    });
+
+    $("#subdivision").change(function () {
+        var subdivisionId = $("#subdivision").val() ? $("#subdivision").val() : '@Model.obj_location.ref_subdivisionid';
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetSection", "Dashboard")',
+            data: { subdivisionId: subdivisionId },
+            datatype: "json",
+            success: function (data) {
+                if (data.obj_section != "") {
+                    $("#section").html("");
+                    var appData = '';
+                    var scId = '@Model.obj_location.ref_sectionid';
+                    appData += '<option value="">Select Section</option>';
+                    $.each(data.obj_section, function (key, value) {
+                        appData += '<option value="' + value.sectionid + '">' + value.sectionname + '</option>';
+                    });
+                    $("#section").append(appData);
+                    if (scId != "" && scId != 0) {
+                        $("#section option[value='" + scId + "']").prop("selected", "selected");
+                    }
+                }
+            }
+        });
+    });
+
+    function editLocationsDetails(id) {
+        alert(id);
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("getLocationOnId", "Location")',
+            data: { id: id },
+            datatype: "json",
+            success: function (data) {
+                if (data.obj_user != '') {
+                    $('#sub_user').attr('name', 'Update');
+                    $('#sub_user').attr('value', 'Update User');
+                    $.each(data.obj_user, function (key, value) {
+                        $("#userid").val(value.userid);
+                        $("#username").val(value.username);
+                        $("#useremailid").val(value.useremailid);
+                        $("#ref_designationid option[value='" + value.ref_designationid + "']").attr("selected", "selected");
+                        $("#firstname").val(value.name);
+                        $("#usermobileno").val(value.usermobileno);
+                        $("#userlandlineno").val(value.userlandlineno);
+                        $("#role option[value='" + value.ref_roleid + "']").attr("selected", "selected");
+                    });
+
+                }
+            }
+        });
+    }
+
+</script>
+
+
+
+
+

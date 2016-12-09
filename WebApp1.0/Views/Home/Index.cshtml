@@ -1,0 +1,132 @@
+﻿@{
+  Layout = null;
+}
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--Head-->
+<head>
+  <meta charset="utf-8" />
+  <title>Login Page</title>
+  <meta name="description" content="login page" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+  <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="~/Content/css/demo.min.css" rel="stylesheet" />
+  <link href="~/Content/css/animate.min.css" rel="stylesheet" />
+  <link href="~/Content/css/beyond.min.css" rel="stylesheet" />
+
+  <style>
+    body::before {
+      background-color: #fff;
+    }
+
+    .login-container .loginbox .loginbox-social {
+      padding: 0 0 10px;
+      text-align: center;
+    }
+
+      .login-container .loginbox .loginbox-social .social-buttons {
+        height: 80px;
+        padding: 15px 28px;
+        text-align: center;
+      }
+
+    .imgcls {
+      margin-left: 20px;
+    }
+
+    .login-container .loginbox .loginbox-title {
+      color: #444;
+      font-family: "Trebuchet MS", sans-serif, Arial;
+      font-size: 20px;
+      font-weight: normal;
+      height: 35px;
+      padding-top: 10px;
+      position: relative;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 100px;
+      margin-top: 25px;
+    }
+
+    .login-container .loginbox {
+      box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
+      height: 400px !important;
+      padding: 0;
+      position: relative;
+      width: 300px !important;
+    }
+
+    textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
+      background-clip: padding-box !important;
+      background-color: #fbfbfb;
+      border: 1px solid #d5d5d5;
+      border-radius: 0 !important;
+      box-shadow: none;
+      color: #858585;
+      font-family: 'Segoe UI';
+      transition: box-shadow 0.45s ease 0s, border-color 0.45s ease-in-out 0s;
+    }
+
+    .login-container .loginbox .loginbox-forgot {
+      padding-left: 40px;
+      font-family: 'Segoe UI';
+    }
+
+    .btn {
+      background-clip: padding-box;
+      border-radius: 2px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 13px;
+      margin: 0;
+      position: relative;
+      transition: all 0.15s ease 0s;
+      vertical-align: middle;
+      font-family: 'Segoe UI';
+    }
+  </style>
+</head>
+<!--Head Ends-->
+<!--Body-->
+<body>
+  <div class="login-container animated fadeInDown">
+    <div class="loginbox-social">
+      <div style="text-align:center;margin-bottom:20px;font-family:'Impact';font-size:20px; font-weight:bold; color:#FFCC00;letter-spacing:3px; text-shadow:2px 1px 1px #000;">
+        DTTS
+      </div>
+      <div class="social-buttons">
+        <img src="~/Content/img/bescomlogo.png" />
+      </div>
+    </div>
+    <div class="loginbox bg-white">
+      <div class="loginbox-title">
+        <img src="~/content/img/login.jpg" width="100px" />
+      </div>
+      @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+      {
+        <div class="loginbox-textbox">
+          <input type="email" class="form-control" name="Username" placeholder="Email" required/>
+        </div>
+        <div class="loginbox-textbox">
+          <input type="password" class="form-control" name="Password" placeholder="Password"/>
+        </div>
+        <div class="loginbox-forgot">
+          <a href="">Forgot Password?</a>
+        </div>
+        <div class="loginbox-submit">
+          <button type="submit" placeholder="Login" class="btn btn-success btn-block" value="Login">Login</button>
+        </div>
+      }
+    </div>
+  </div>
+  <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+  <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+<!--Body Ends-->
+</html>
