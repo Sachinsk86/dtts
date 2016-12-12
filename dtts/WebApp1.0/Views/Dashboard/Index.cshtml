@@ -5,8 +5,13 @@
   int i = 1;
 }
 <style>
-   .zoomContainer{ z-index: 9999;}
-    .zoomWindow{ z-index: 9999;}
+  .zoomContainer {
+    z-index: 9999;
+  }
+
+  .zoomWindow {
+    z-index: 9999;
+  }
 </style>
 <!-- Page Body -->
 <div class="page-body">
@@ -102,12 +107,12 @@
       <div class="widget">
         <div class="widget-header" style="background-color:#B5C7B7;">
           <span class="widget-caption" style="color: white;">Transformer - Search Result</span>
+          @using (Html.BeginForm("ExportData", "Dashboard", FormMethod.Post))
+          {
+            <button class="btn btn-success" type="submit" style="margin-right: 100px; margin-bottom: -32px;"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+          }
+          @*<button class="btn btn-success"><i class="fa fa-file-excel-o"></i> Export to Excel</button>*@
           <div class="widget-buttons">
-            @using (Html.BeginForm("ExportData", "Dashboard", FormMethod.Post))
-            {
-              <button class="btn btn-success" type="submit" style="margin-right: 100px; margin-bottom: -32px;"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
-            }
-            @*<button class="btn btn-success"><i class="fa fa-file-excel-o"></i> Export to Excel</button>*@
             <a href="#" data-toggle="maximize">
               <i class="fa fa-expand"></i>
             </a>
@@ -140,34 +145,35 @@
               {
                 <tr>
                   <td>@i</td>
-                  @foreach (DataColumn col in Model.resultData.Columns)
-                  {
-                    if (col.ColumnName != "transformerid" && col.ColumnName != "locationname")
-                    {
-                      <td>@row[col.ColumnName]</td>
-                    }
-                  }
+                  <td>@row[1]</td>
+                  <td>@row[2]</td>
+                  <td>@row[3]</td>
+                  <td>@row[4]</td>
+                  <td>@row[5]</td>
+                  <td>@row[6]</td>
+                  <td>@row[7]</td>
+                  <td>@row[8]</td>
                   <td><button id="@row[0]" onclick="viewImages(this.id)" class="btn btn-success"><i class="fa fa-eye"></i> View</button></td>
                 </tr>
                 i++;
               }
-              
+
               @*@foreach (var tranformerResult in Model.obj_transformerSuppCode)
-              {
-                <tr>
-                  <td>@i</td>
-                  <td>@tranformerResult.zonename</td>
-                  <td>@tranformerResult.circlename</td>
-                  <td>@tranformerResult.divisionname</td>
-                  <td>@tranformerResult.subdivisionname</td>
-                  <td>@tranformerResult.sectionname</td>
-                  <td>@tranformerResult.Transformercode</td>
-                  <td>@tranformerResult.MakeOdDtr</td>
-                  <td>@tranformerResult.dtrcapacity</td>
-                  <td><button id="@tranformerResult.transformerid" onclick="viewImages(this.id)" class="btn btn-success"><i class="fa fa-eye"></i> View</button></td>
-                </tr>
-                i++;
-              }*@
+                {
+                  <tr>
+                    <td>@i</td>
+                    <td>@tranformerResult.zonename</td>
+                    <td>@tranformerResult.circlename</td>
+                    <td>@tranformerResult.divisionname</td>
+                    <td>@tranformerResult.subdivisionname</td>
+                    <td>@tranformerResult.sectionname</td>
+                    <td>@tranformerResult.Transformercode</td>
+                    <td>@tranformerResult.MakeOdDtr</td>
+                    <td>@tranformerResult.dtrcapacity</td>
+                    <td><button id="@tranformerResult.transformerid" onclick="viewImages(this.id)" class="btn btn-success"><i class="fa fa-eye"></i> View</button></td>
+                  </tr>
+                  i++;
+                }*@
             </tbody>
           </table>
         </div>
@@ -180,7 +186,7 @@
     <div class="modal-content">
       <div class="modal-header" style="background-color:#61bcfe; color:#fff;">
         <button class="bootbox-close-button close" aria-hidden="true" data-dismiss="modal" id="CloseBtn" type="button">×</button>
-        <h4 class="modal-title">Image Details</h4>
+        <h4 class="modal-title">Transoformer image details</h4>
       </div>
       <div class="modal-body" style="height:500px;">
         <div class="bootbox-body">
@@ -204,48 +210,46 @@
   </div>
 </div>
 @*<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>*@
-  <script>
+<script>
 
-    //$("#zone").select2();
-    //$("#circle").select2();
-    //$("#division").select2();
-    //$("#subdivision").select2();
-    //$("#tcode").select2();
-    //$("#section").select2();
-    //$("#failurereason").select2();
+  //$("#zone").select2();
+  //$("#circle").select2();
+  //$("#division").select2();
+  //$("#subdivision").select2();
+  //$("#tcode").select2();
+  //$("#section").select2();
+  //$("#failurereason").select2();
 
-    //--Bootstrap Date Picker--
-    //$('.date-picker').datepicker();
-   // $("#simpledatatable").DataTable({});
+  //--Bootstrap Date Picker--
+  //$('.date-picker').datepicker();
+  // $("#simpledatatable").DataTable({});
 
-    $(document).ready(function () {
-      $('#simpledatatable').DataTable();
-      var znId = '@Model.obj_location.ref_zoneid';
+  $(document).ready(function () {
+    $('#simpledatatable').DataTable();
+    var znId = '@Model.obj_location.ref_zoneid';
 
-      if (znId != "" && znId != 0) {
-        $("#zone").trigger("change");
-      }
-      //$("#circle").trigger("change");
-    });
+    if (znId != "" && znId != 0) {
+      $("#zone").trigger("change");
+    }
+    //$("#circle").trigger("change");
+  });
 
   $("#CloseBtn").click(function () {
     $("#Udata").css("display", "none");
   });
 
-  function viewImages(id){
+  function viewImages(id) {
     $.ajax({
       type: "post",
       url: '@Url.Action("GetImages", "Dashboard")',
       data: { TransformerId: id },
       datatype: "json",
       success: function (data) {
-        if (data.images != "")
-        {
+        if (data.images != "") {
           var i = 1;
           var basUrl = "http://priyantabag-001-site1.gtempurl.com/apibasecom/Image/";
           $.each(data.images, function (key, value) {
-            if(i == 1)
-            {
+            if (i == 1) {
               $("#img1").html("");
               $("#img1").append('<img id="z1" src="' + basUrl + '' + value.imagefilename + '" onmouseover = "zoomImage(this.id);" data-zoom-image="' + basUrl + '' + value.imagefilename + '" style="width:200px; height:200px;margin-bottom:5px;"/>');
               var latitude = value.imagelatitude;
@@ -253,8 +257,7 @@
               $("#cap1").html("");
               $("#cap1").append('<iframe width="200" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&hl=es;z=14&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&hl=es;z=14&amp;output=embed" style="color:#0000FF;text-align:left" target="_blank">View Bigger</a></small>');
             }
-            if(i == 2)
-            {
+            if (i == 2) {
               $("#img2").html("");
               $("#img2").append('<img id="z2" src="' + basUrl + '' + value.imagefilename + '" onmouseover = "zoomImage(this.id);"/>');
               var latitude = value.imagelatitude;
@@ -266,24 +269,23 @@
           });
           $("#Udata").css("display", "block");
         }
-        else
-        {
+        else {
           alert("Sorry, images are not available...");
         }
       }
     });
   }
-  
-    function zoomImage(id) {
-      $('#' + id).elevateZoom({
-        responsive: true,
-        zoomType: "lens",
-        cursor: "crosshair",
-        zoomWindowFadeIn: 700,
-        zoomWindowFadeOut: 950,
-        scrollZoom: true
-      });
-    }
+
+  function zoomImage(id) {
+    $('#' + id).elevateZoom({
+      responsive: true,
+      zoomType: "lens",
+      cursor: "crosshair",
+      zoomWindowFadeIn: 700,
+      zoomWindowFadeOut: 950,
+      scrollZoom: true
+    });
+  }
 
   $("#zone").change(function () {
     var zoneId = $("#zone").val();
@@ -410,4 +412,3 @@
   });
 
 </script>
-

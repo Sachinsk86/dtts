@@ -38,6 +38,7 @@ namespace WebApp1._0.Controllers
     [HttpPost]
     public ActionResult Index(Model_TransformerFilter filter)
     {
+      DataTable dt = new DataTable();
       try
       {
         string where = null;
@@ -74,7 +75,7 @@ namespace WebApp1._0.Controllers
          where += "sc.sectionid = " + filter.section;
          obj.obj_location.ref_sectionid = filter.section;
         }
-        DataTable dt = sp.Sp_Generic_Class.GetMultipleRecordByStringParam("Sp_GetTransformerSearchFilterData", where);
+        dt = sp.Sp_Generic_Class.GetMultipleRecordByStringParam("Sp_GetTransformerSearchFilterData", where);
         foreach (DataRow row in dt.Rows)
         {
           obj.importtoexcel.Add(new Model_ExcelImport
@@ -105,13 +106,13 @@ namespace WebApp1._0.Controllers
         //    dtrcapacity = Convert.ToInt32(row["dtrcapacity"])
         //  });
         //}
-        Session["model"] = obj.importtoexcel;
-        obj.resultData = dt;
       }
       catch(Exception ex)
       {
        Console.Write(ex.Message);
       }
+      Session["model"] = obj.importtoexcel;
+      obj.resultData = dt;
       obj.obj_zone = _db.Zone.ToList();
       return View(obj);
     }
@@ -228,13 +229,13 @@ namespace WebApp1._0.Controllers
       int i = gv.Rows.Count;
       if (i > 0)
       {
-        gv.HeaderRow.Cells[0].Text = "Location Name";
+        gv.HeaderRow.Cells[0].Text = "Location";
         gv.HeaderRow.Cells[1].Text = "Transformer Code";
-        gv.HeaderRow.Cells[2].Text = "Zone Name";
-        gv.HeaderRow.Cells[3].Text = "Circle Name";
-        gv.HeaderRow.Cells[4].Text = "Division Name";
-        gv.HeaderRow.Cells[5].Text = "Sub Division Name";
-        gv.HeaderRow.Cells[6].Text = "Section Name";
+        gv.HeaderRow.Cells[2].Text = "Zone";
+        gv.HeaderRow.Cells[3].Text = "Circle";
+        gv.HeaderRow.Cells[4].Text = "Division";
+        gv.HeaderRow.Cells[5].Text = "Sub Division";
+        gv.HeaderRow.Cells[6].Text = "Section";
         gv.HeaderRow.Cells[7].Text = "Make of DTR";
         gv.HeaderRow.Cells[8].Text = "DTR Capacity";
 

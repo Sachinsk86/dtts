@@ -12,11 +12,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+  <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+  <script src="~/Scripts/bootstrap.js"></script>
+  <script src="~/Content/assets/js/bootstrap.min.js"></script>
+  <script src="~/Content/assets/js/datetime/bootstrap-datepicker.js"></script>
+  <script src="~/Content/assets/js/beyond.min.js"></script>
   <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
   <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
   <link href="~/Content/css/demo.min.css" rel="stylesheet" />
   <link href="~/Content/css/animate.min.css" rel="stylesheet" />
   <link href="~/Content/css/beyond.min.css" rel="stylesheet" />
+
 
   <style>
     body::before {
@@ -53,8 +59,9 @@
     }
 
     .login-container .loginbox {
+      border-radius: 10px;
       box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
-      height: 400px !important;
+      height: 340px !important;
       padding: 0;
       position: relative;
       width: 300px !important;
@@ -100,34 +107,67 @@
       <div class="social-buttons">
         <img src="~/Content/img/bescomlogo.png" />
       </div>
-      <div style="text-align:center;margin:20px 0;font-family:'Segoe Ui';font-size:20px; font-weight:bold; color:#94591B; text-shadow:2px 1px 1px #ccc;">
+      <div style="text-align:center;margin:20px 0;font-family:'Segoe Ui';font-size:20px; font-weight:900; color:#94591B; text-shadow:2px 1px 1px #ccc;">
         Distribution Transformer Tracking System
       </div>
     </div>
     <div class="loginbox bg-white">
       <div class="loginbox-title">
-        <img src="~/content/img/login.jpg" width="100px" />
+        <img src="~/content/img/login.jpg" width="100" />
       </div>
       @using (Html.BeginForm("Login", "Login", FormMethod.Post))
       {
         //@Html.AntiForgeryToken()
         <div class="loginbox-textbox">
-          <input type="email" class="form-control" name="useremailid" placeholder="Email" required />
+          <input type="email" class="form-control" name="useremailid" placeholder="Enter your registered e-mail" required style="font-size: 14px;" />
         </div>
         <div class="loginbox-textbox">
-          <input type="password" class="form-control" name="Password" placeholder="Password" />
-        </div>
-        <div class="loginbox-forgot">
-          <a href="">Forgot Password?</a>
+          <input type="password" class="form-control" name="Password" placeholder="Enter your Password" style="font-size: 14px;" />
         </div>
         <div class="loginbox-submit">
-          <button type="submit" placeholder="Login" class="btn btn-success btn-block" value="Login">Login</button>
+          <button type="submit" placeholder="Login" class="btn btn-success btn-block" value="Login" style="font-size: 14px;font-weight: bold;">Login</button>
+        </div>
+        <div class="loginbox-forgot">
+          <a style="font-size: 14px; color: blue; font-weight: bold;cursor:pointer;" id="txtidforgot">Forgot Password?</a>
         </div>
       }
     </div>
   </div>
-  <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-  <script src="~/Scripts/bootstrap.min.js"></script>
+  <div class="bootbox modal fade modal-darkorange in" id="Udata" role="dialog" tabindex="-1" style="display: none;" aria-hidden="false">
+    <div class="modal-dialog" style="margin-top: 330px;width: 300px ! important;">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:#61bcfe; color:#fff;">
+          <button class="bootbox-close-button close" aria-hidden="true" data-dismiss="modal" id="CloseBtn" type="button">×</button>
+          <h4 class="modal-title">Password Recover</h4>
+        </div>
+        <div class="modal-body">
+          <div class="bootbox-body">
+            <div class="loginbox bg-white">
+              @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+              {
+                //@Html.AntiForgeryToken()
+                <div class="loginbox-textbox">
+                  <input type="email" class="form-control" name="useremailid" placeholder="Enter your registered e-mail" required style="font-size: 14px;" />
+                </div><br />
+                <div class="loginbox-submit">
+                  <button type="submit" placeholder="Forgot Password" class="btn btn-success btn-block" value="Forgot" style="font-size: 14px;font-weight: bold;">Submit</button>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $("#txtidforgot").click(function () {
+      $("#Udata").css("display", "block");
+    });
+    $("#CloseBtn").click(function () {
+      $("#Udata").css("display", "none");
+    });
+  </script>
 </body>
 <!--Body Ends-->
 </html>
