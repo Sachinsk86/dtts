@@ -47,28 +47,24 @@ namespace WebApp1._0.Controllers
          where += "z.zoneid = " + filter.zone;
          obj.obj_location.ref_zoneid = filter.zone;
         }
-        
         if(filter.circle != 0)
         {
          where += " AND ";
          where += "c.circleid = " + filter.circle;
          obj.obj_location.ref_circleid = filter.circle;
         }
-        
         if (filter.division != 0)
         {
          where += " AND ";
          where += "d.divisionid = " +filter.division;
          obj.obj_location.ref_divisionid = filter.division;
         }
-        
         if(filter.subdivision != 0)
         {
          where += " AND ";
          where += "sb.subdivisionid = " +filter.subdivision;
          obj.obj_location.ref_subdivisionid = filter.subdivision;
         }
-        
         if(filter.section != 0)
         {
          where += " AND ";

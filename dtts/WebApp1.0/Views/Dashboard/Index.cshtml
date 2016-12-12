@@ -222,11 +222,9 @@
   //--Bootstrap Date Picker--
   //$('.date-picker').datepicker();
   // $("#simpledatatable").DataTable({});
-
   $(document).ready(function () {
     $('#simpledatatable').DataTable();
     var znId = '@Model.obj_location.ref_zoneid';
-
     if (znId != "" && znId != 0) {
       $("#zone").trigger("change");
     }
@@ -409,5 +407,4 @@
       }
     });
   });
-
 </script>
