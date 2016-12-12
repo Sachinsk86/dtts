@@ -238,7 +238,6 @@ namespace WebApp1._0.Controllers
         gv.HeaderRow.Cells[6].Text = "Section";
         gv.HeaderRow.Cells[7].Text = "Make of DTR";
         gv.HeaderRow.Cells[8].Text = "DTR Capacity";
-
       }
       Response.ClearContent();
       Response.Buffer = true;
