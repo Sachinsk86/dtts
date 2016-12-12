@@ -248,7 +248,6 @@ namespace WebApp1._0.Controllers
       Response.End();
       return RedirectToAction("Index", "ExportToExcel");
     }
-
     
 
   }
