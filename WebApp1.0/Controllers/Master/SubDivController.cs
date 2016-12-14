@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -16,25 +17,37 @@ namespace WebApp1._0.Controllers.Master
         // GET: SubDiv
         public ActionResult Index()
         {
-            DataRowCollection divs = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetDivisionsResult");
-            DataRowCollection subDiv = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetSubDivResult");
-            foreach (DataRow row in divs)
+            try
             {
-                obj.obj_divResult.Add(new Model_mdivResult
-                {
-                    divisionid = Convert.ToInt32(row["divisionid"]),
-                    divisionname = Convert.ToString(row["divisionname"]),
-                });
+                DataTable divs = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetDivisionsResult");
+                obj.resultData = divs;
+
+                DataTable subDiv = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetSubDivResult");
+                obj.resultView = subDiv;
+
+                //foreach (DataRow row in divs)
+                //{
+                //    obj.obj_divResult.Add(new Model_mdivResult
+                //    {
+                //        divisionid = Convert.ToByte(row["divisionid"]),
+                //        divisionname = Convert.ToString(row["divisionname"]),
+                //    });
+                //}
+                //foreach (DataRow rows in subDiv)
+                //{
+                //    obj.obj_subdivResult.Add(new Model_subDivResult
+                //    {
+                //        subdivisionid = Convert.ToInt32(rows["subdivisionid"]),
+                //        subdivisioncode = Convert.ToInt32(rows["subdivisioncode"]),
+                //        subdivisionname = Convert.ToString(rows["subdivisionname"]),
+                //        divisionname = Convert.ToString(rows["divisionname"]),
+                //    });
+                //}
             }
-            foreach (DataRow rows in subDiv)
+            catch(Exception ex)
             {
-                obj.obj_subdivResult.Add(new Model_subDivResult 
-                {
-                    subdivisionid = Convert.ToInt32(rows["subdivisionid"]),
-                    subdivisioncode = Convert.ToInt32(rows["subdivisioncode"]),
-                    subdivisionname = Convert.ToString(rows["subdivisionname"]),
-                    divisionname = Convert.ToString(rows["divisionname"]),
-                });
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
             }
             return View(obj);
         }
@@ -43,7 +56,7 @@ namespace WebApp1._0.Controllers.Master
         {
             try
             {
-                if (Request.Form["Submit"] == "Submit")
+                if (Request.Form["Save"] == "Save")
                 {
                     if (subdiv.subdivisionid == 0)
                     {
@@ -59,7 +72,8 @@ namespace WebApp1._0.Controllers.Master
                             obj.usermessage = "Successfully Created Sub Division";
                         }
                     }
-                }else if(Request.Form["Submit"] == "Update")
+                }
+                else if (Request.Form["Save"] == "Update")
                 {
                     subdiv.modifiedby = 1;
                     subdiv.modifieddate = DateTime.Now;
@@ -85,26 +99,41 @@ namespace WebApp1._0.Controllers.Master
 
         public ActionResult EditSubDiv(int id) 
         {
-            var list = new Dictionary<string, object>();
-            list.Add("SubDivId", id);
-            DataRowCollection divs = sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_GetSubDivOnId", list);
-            foreach(DataRow subdiv in divs)
+            DataTable divs = new DataTable();
+            try
             {
-                obj.obj_subdivision.Add(new Model_msubdivision 
+                if (id > 0)
                 {
-                    subdivisionid = Convert.ToInt32(subdiv["subdivisionid"]),
-                    subdivisioncode = Convert.ToInt32(subdiv["subdivisioncode"]),
-                    subdivisionname = Convert.ToString(subdiv["subdivisionname"]),
-                    ref_divisionid = Convert.ToInt32(subdiv["ref_divisionid"]),
-                });
+                    var list = new Dictionary<string, object>();
+                    list.Add("SubDivId", id);
+                    divs = sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_GetSubDivOnId", list);
+                }
             }
-            return Json(new { obj_sdiv = obj.obj_subdivision }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
+            }
+            obj.resultData = divs;
+            return Json(new { obj_subdivs = JsonConvert.SerializeObject(obj.resultData) }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult DeleteSubDiv(int id)
         {
-            var list = new Dictionary<string, object>();
-            list.Add("SubDivId", id);
-            sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_deleteSubDivOnId", list);
+            try 
+            {
+                if(id > 0)
+                {
+                    var list = new Dictionary<string, object>();
+                    list.Add("SubDivId", id);
+                    sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_deleteSubDivOnId", list);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
+            }
             return Json(new { }, JsonRequestBehavior.AllowGet);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,26 +16,38 @@ namespace WebApp1._0.Controllers.Master
         // GET: Division
         public ActionResult Index()
         {
-            DataRowCollection circle = sp.Sp_Generic_Class.GetMultipleRecord("Sp_getCircleDetails");
-            DataRowCollection divRes = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetDivisionsResult");
-              //Mapper.CreateMap<User,UserDto >();  
-            foreach (DataRow row in circle)
+            try
             {
-                obj.obj_circlrResult.Add(new Model_mcircleResult 
-                {
-                    circleid = Convert.ToInt32(row["circleid"]),
-                    circlename = Convert.ToString(row["circlename"]),
-                });
+                DataTable circle = sp.Sp_Generic_Class.GetMultipleRecord("Sp_getCircleDetails");
+                obj.resultData = circle;
+
+                DataTable divRes = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetDivisionsResult");
+                obj.resultView = divRes;
+
+                ////Mapper.CreateMap<User,UserDto >();  
+                //foreach (DataRow row in circle)
+                //{
+                //    obj.obj_circlrResult.Add(new Model_mcircleResult
+                //    {
+                //        circleid = Convert.ToByte(row["circleid"]),
+                //        circlename = Convert.ToString(row["circlename"]),
+                //    });
+                //}
+                //foreach (DataRow div in divRes)
+                //{
+                //    obj.obj_divResult.Add(new Model_mdivResult
+                //    {
+                //        divisionid = Convert.ToByte(div["divisionid"]),
+                //        divisioncode = Convert.ToByte(div["divisioncode"]),
+                //        divisionname = Convert.ToString(div["divisionname"]),
+                //        circlename = Convert.ToString(div["circlename"]),
+                //    });
+                //}
             }
-            foreach (DataRow div in divRes)
+            catch(Exception ex)
             {
-                obj.obj_divResult.Add(new Model_mdivResult 
-                { 
-                    divisionid = Convert.ToInt32(div["divisionid"]),
-                    divisioncode = Convert.ToInt32(div["divisioncode"]),
-                    divisionname = Convert.ToString(div["divisionname"]),
-                    circlename = Convert.ToString(div["circlename"]),
-                });
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
             }
             return View(obj);
         }
@@ -43,14 +56,12 @@ namespace WebApp1._0.Controllers.Master
         {
             try
             {
-                if(Request.Form["Submit"] == "Submit")
+                if (Request.Form["Save"] == "Save")
                 {
                     if (div.divisionid == 0)
                     {
                         div.createdby = 1;
                         div.createddate = DateTime.Now;
-                        div.modifiedby = 1;
-                        div.modifieddate = DateTime.Now;
                         div.active = true;
                         _db.Entry(div).State = System.Data.Entity.EntityState.Added;
                         _db.SaveChanges();
@@ -60,7 +71,7 @@ namespace WebApp1._0.Controllers.Master
                         }
                     }
                 }
-                else if (Request.Form["Submit"] == "Update")
+                else if (Request.Form["Save"] == "Update")
                 {
                     div.modifiedby = 1;
                     div.modifieddate = DateTime.Now;
@@ -86,27 +97,42 @@ namespace WebApp1._0.Controllers.Master
 
         public ActionResult EditDivision(int id) 
         {
-            var list = new Dictionary<string, object>();
-            list.Add("divId", id);
-            DataRowCollection div = sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_GetDivOnId", list);
-            foreach (DataRow divs in div)
+            DataTable div = new DataTable();
+            try
             {
-                obj.obj_division.Add(new Model_mdivision 
+                if (id > 0)
                 {
-                    divisionid = Convert.ToInt32(divs["divisionid"]),
-                    divisioncode = Convert.ToInt32(divs["divisioncode"]),
-                    divisionname = Convert.ToString(divs["divisionname"]),
-                    ref_circleid = Convert.ToInt32(divs["ref_circleid"]),
-                });
+                    var list = new Dictionary<string, object>();
+                    list.Add("divId", id);
+                    div = sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_GetDivOnId", list);
+                }
             }
-            return Json(new { obj_div = obj.obj_division }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
+            }
+
+            obj.resultData = div;
+            return Json(new { obj_div = JsonConvert.SerializeObject(obj.resultData) }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DeleteDiv(int id)
         {
-            var list = new Dictionary<string, object>();
-            list.Add("divId", id);
-            sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_DeleteDivOnId", list);
+            try
+            {
+                if (id > 0)
+                {
+                    var list = new Dictionary<string, object>();
+                    list.Add("divId", id);
+                    sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_DeleteDivOnId", list);
+                }
+            }
+            catch (Exception ex)
+            {
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
+            }
             return Json(new { },JsonRequestBehavior.AllowGet);
         }
     }

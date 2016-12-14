@@ -14,7 +14,7 @@ namespace WebApp1._0.Models
     public int substationid { get; set; }
     public int substationcode { get; set; }
     public string substationname { get; set; }
-    public int ref_organizationid { get; set; }
+    public int ref_subdivisionid { get; set; }
     public int ref_stationcapacityid { get; set; }
     public int createdby { get; set; }
     public DateTime createddate { get; set; }

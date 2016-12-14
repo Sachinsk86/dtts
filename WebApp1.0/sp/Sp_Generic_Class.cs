@@ -16,7 +16,7 @@ namespace WebApp1._0.sp
     private static string ConnectionString = ConfigurationManager.ConnectionStrings["DBWB"].ConnectionString;
 
     // Function to get all records -- Parameter -> procedure name
-    public static DataRowCollection GetMultipleRecord(string store_procedure_name)
+    public static DataTable GetMultipleRecord(string store_procedure_name)
     {
       SqlConnection con = new SqlConnection(ConnectionString);
       DataTable dt = new DataTable();
@@ -31,11 +31,11 @@ namespace WebApp1._0.sp
           sda.Fill(dt);
         }
       }
-      return dt.Rows;
+      return dt;
     }
 
     // Function to get all records based on some parameters -- Parameter -> Procedure name &  Array of condition / single also
-    public static DataRowCollection GetMultipleRecordByParam(string store_procedure_name, Dictionary<string, object> param)
+    public static DataTable GetMultipleRecordByParam(string store_procedure_name, Dictionary<string, object> param)
     {
       SqlConnection con = new SqlConnection(ConnectionString);
       DataTable dt = new DataTable();
@@ -57,7 +57,7 @@ namespace WebApp1._0.sp
           sda.Fill(dt);
         }
       }
-      return dt.Rows;
+      return dt;
     }
 
     // Function to get all records based on some parameters -- Parameter -> Procedure name &  string as where clause

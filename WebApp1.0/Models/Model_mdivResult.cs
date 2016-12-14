@@ -9,10 +9,10 @@ namespace WebApp1._0.Models
     public class Model_mdivResult
     {
         [Key]
-        public int divisionid { get; set; }
-        public int divisioncode { get; set; }
+        public byte divisionid { get; set; }
+        public byte divisioncode { get; set; }
         public string divisionname { get; set; }
-        public int ref_circleid { get; set; }
+        public byte ref_circleid { get; set; }
         public string circlename { get; set; }
     }
 }

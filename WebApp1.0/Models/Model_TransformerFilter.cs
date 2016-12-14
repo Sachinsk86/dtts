@@ -7,9 +7,9 @@ namespace WebApp1._0.Models
 {
   public class Model_TransformerFilter
   {
-    public int zone { get; set; }
-    public int circle { get; set; }
-    public int division { get; set; }
+    public byte zone { get; set; }
+    public byte circle { get; set; }
+    public byte division { get; set; }
     public int subdivision { get; set; }
     public int section { get; set; }
 

@@ -9,10 +9,10 @@ namespace WebApp1._0.Models
     public class Model_mzoneResult
     {
         [Key]
-        public int zoneid { get; set; }
-        public int zonecode { get; set; }
+        public byte zoneid { get; set; }
+        public byte zonecode { get; set; }
         public string zonename { get; set; }
-        public int ref_corporateid { get; set; }
+        public byte ref_corporateid { get; set; }
         public string corporatename { get; set; }
     }
 }

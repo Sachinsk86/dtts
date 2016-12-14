@@ -7,17 +7,17 @@ using System.Web;
 
 namespace WebApp1._0.Models
 {
-    [Table("mcorporate")]
-    public class Model_mcorporate
+    [Table("mstationcapacity")]
+    public class Model_mstationcapacity
     {
         [Key]
-        public byte corporateid { get; set; }
-        public int corporatecode { get; set; }
-        public string corporatename { get; set; }
+        public int stationcapacityid { get; set; }
+        public int stationcapacitycode { get; set; }
+        public string stationcapacityname { get; set; }
         public int createdby { get; set; }
         public DateTime createddate { get; set; }
-        public int modifiedby { get; set; }
-        public DateTime modifieddate { get; set; }
+        public int? modifiedby { get; set; }
+        public DateTime? modifieddate { get; set; }
         public bool active { get; set; }
     }
 }

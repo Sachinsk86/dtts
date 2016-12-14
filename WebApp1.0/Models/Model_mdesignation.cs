@@ -12,7 +12,7 @@ namespace WebApp1._0.Models
     {
         [Key]
         public int designationid {get;set;}
-        public int designationcode {get;set;}
+        public string designationcode {get;set;}
         public string designationname {get;set;}
         public int createdby {get;set;}
         public DateTime creatatedde {get;set;}

@@ -12,7 +12,7 @@ namespace WebApp1._0.Models
         public int subdivisionid { get; set; }
         public int subdivisioncode { get; set; }
         public string subdivisionname { get; set; }
-        public int ref_divisionid { get; set; }
+        public byte ref_divisionid { get; set; }
         public string divisionname { get; set; }
     }
 }

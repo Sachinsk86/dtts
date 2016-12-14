@@ -7,13 +7,13 @@ using System.Web;
 
 namespace WebApp1._0.Models
 {
-    [Table("mcorporate")]
-    public class Model_mcorporate
+    [Table("mFeederCategory")]
+    public class Model_mFeederCategory
     {
         [Key]
-        public byte corporateid { get; set; }
-        public int corporatecode { get; set; }
-        public string corporatename { get; set; }
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int feedercategoryid { get; set; }
+        public string feedervcategoryname { get; set; }
         public int createdby { get; set; }
         public DateTime createddate { get; set; }
         public int modifiedby { get; set; }

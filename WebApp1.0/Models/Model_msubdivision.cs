@@ -11,10 +11,11 @@ namespace WebApp1._0.Models
   public class Model_msubdivision
   {
     [Key]
+    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
     public int subdivisionid { get; set; }
     public int subdivisioncode { get; set; }
     public string subdivisionname { get; set; }
-    public int ref_divisionid { get; set; }
+    public byte ref_divisionid { get; set; }
     public int createdby { get; set; }
     public DateTime? createddate { get; set; }
     public int? modifiedby { get; set; }

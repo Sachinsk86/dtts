@@ -1,101 +1,68 @@
 ﻿@model WebApp1._0.Models.DBContext
+@using System.Data;
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 1;
 }
+
 <div class="page-body">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="row">
-                <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="widget flat radius-bordered">
                         <div class="widget-header bg-blue">
-                            <span class="widget-caption">Section Form</span>
+                            <span class="widget-caption">Section</span>
                         </div>
                         <div class="widget-body">
                             <div id="registration-form">
                                 <!--<div class="form-title">User Information</div>-->
                                 @using (Html.BeginForm("SaveSection", "Section", FormMethod.Post))
                                 {
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form=group">
-                                                <span class="input-icon icon-right">
-                                                    <select id="ref_subdivisionid" name="ref_subdivisionid" style="width:100%;" required>
-                                                        <option value="" />Select SubDiv
-                                                        @foreach (var subdiv in @Model.obj_subdivResult)
-                                                        {
-                                                            <option value="@subdiv.subdivisionid">@subdiv.subdivisionname</option>
-                                                        }
-                                                    </select>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" class="form-control" placeholder="Section Code" name="sectioncode" id="sectioncode" required>
-                                                </span>
-                                            </div>
-                                        </div>
+                                    <div class="table-toolbar">
+                                        <a id="editabledatatable_new" class="btn btn-success" onclick="addNewRow();">
+                                            Add New Section
+                                        </a>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" class="form-control" placeholder="Section Name" name="sectionname" id="sectionname" required>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr class="wide" />
-                                    <input type="hidden" name="sectionid" id="sectionid" value="" />
-                                    <input type="submit" class="btn btn-success" id="sub_sec" value="Submit" name="Submit" />
+                                    <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Sub Division Name</th>
+                                                <th>Section Code</th>
+                                                <th>Section Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (DataRow row in Model.resultView.Rows)
+                                            {
+                                                <tr id="newRow">
+                                                    <td>
+                                                        <input type="hidden" name="sectionid" id="sectionid" value="" />
+                                                        <label id="subdiv_name-@row[0]">@row[4]</label>
+                                                        <span id="subdiv-@row[0]"></span>
+                                                    </td>
+                                                    <td id="code-@row[0]">
+                                                        <label id="scodes-@row[0]">@row[1]</label>
+                                                        <input type="hidden" id="hdnscodes-@row[0]" value="@row[1]" class="form-control" />
+                                                    </td>
+                                                    <td id="name-@row[0]">
+                                                        <label id="sname-@row[0]">@row[2]</label>
+                                                        <input type="hidden" id="hdnsname-@row[0]" value="@row[2]" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <span id="editdelete-@row[0]">
+                                                            <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editSection(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
+                                                            <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteSection(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 }
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-xs-12">
-                    <div class="widget">
-                        <div class="widget-header widget-header bg-blue">
-                            <span class="widget-caption">Sections List</span>
-                            <div class="widget-buttons">
-                                <a href="#" data-toggle="maximize">
-                                </a>
-                                <a href="#" data-toggle="collapse">
-                                </a>
-                                <a href="#" data-toggle="dispose">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="widget-body">
-                            <table class="table table-striped table-bordered table-hover" id="simpledatatable">
-                                <thead>
-                                    <tr>
-                                        <th>Sl No.</th>
-                                        <th>Sub-Div Name</th>
-                                        <th>Section Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                   @foreach (var sec in @Model.obj_sectionResult)
-                                   {
-                                        <tr>
-                                            <td>@i</td>
-                                            <td>@sec.subdivisionname</td>
-                                            <td>@sec.sectionname</td>
-                                            <td>
-                                                <a class="btn btn-info btn-xs edit" title="Edit" onclick="editSection(@sec.sectionid);"><i class="fa fa-edit"></i></a>
-                                                <a class="btn btn-danger btn-xs delete" title="Delete" onclick="deleteSection(@sec.sectionid);"><i class="fa fa-trash-o"></i></a>
-                                            </td>
-                                        </tr>
-                                       i++;
-                                   }
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -105,6 +72,7 @@
 </div>
 <script>
     $(document).ready(function () {
+        $('#simpledatatable').DataTable();
         var message = '@Model.usermessage';
         if (message != null && message != "") {
             alert(message);
@@ -118,22 +86,32 @@
             data: { id: id },
             datatype: "json",
             success: function (data) {
-                if (data.obj_sec != '') {
-                    $('#sub_sec').attr('value', 'Update');
-                    $.each(data.obj_sec, function (key, value) {
-                        $("#sectionid").val(value.sectionid);
-                        $("#sectionname").val(value.sectionname);
-                        $("#sectioncode").val(value.sectioncode);
-                        $("#ref_subdivisionid option[value='" + value.ref_subdivisionid + "']").attr("selected", "selected");
-                    });
-
+                if (data.obj_section != '') {
+                    if (data.obj_section != '') {
+                        $(".edit").attr("disabled", "disabled");
+                        $("#sectionid").val(id);
+                        $("#subdiv-" + id).html("");
+                        $("#subdiv-" + id).append('<select name="ref_subdivisionid" id="ref_subdivisionid-' + id + '" class="form-control" required><option value="">Select Corporate</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select>').show();
+                        $("#subdiv_name-" + id).css("display", "none");
+                        $.each($.parseJSON(data.obj_section), function (key, value) {
+                            $("#scodes-" + id).css("display", "none");
+                            $("#hdnscodes-" + id).attr("type", "text");
+                            $("#hdnscodes-" + id).attr("name", "zonecode");
+                            $("#sname-" + id).css("display", "none");
+                            $("#hdnsname-" + id).attr("type", "text");
+                            $("#hdnsname-" + id).attr("name", "zonename");
+                            $("#editdelete-" + id).append('<input type="submit" value="Update" name="Save" id="edits-' + id + '" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
+                            $("#edit-" + id).css("display", "none");
+                            $("#delete-" + id).css("display", "none");
+                            $('#ref_subdivisionid-' + id + ' option[value=' + value.ref_subdivisionid + ']').prop("selected", "selected");
+                        });
+                    }
                 }
             }
         });
     }
 
-    function deleteSection(id)
-    {
+    function deleteSection(id) {
         alert("Do you really want to delete this record ?")
         $.ajax({
             type: "post",
@@ -145,6 +123,39 @@
                 location.reload();
             }
         });
+    }
+    function addNewRow() {
+        $("#newRow").html("");
+        var appData = '';
+        appData = '<td><select name="ref_subdivisionid" id="ref_subdivisionid" class="form-control" required><option value="">Select Sub Division</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select></td>' +
+                  '<td><input type="text" name="sectioncode" id="sectioncode" placeholder="Section Code" class="form-control" required/></td>' +
+                  '<td><input type="text" name="sectionname" id="sectionname" placeholder="Section Name" class="form-control" required/></td>' +
+                  '<td><input type="submit" value="Save" class="btn btn-success btn-xs save" name="Save" /> <a class="btn btn-warning btn-xs cancel" onclick="removeRow();"><i class="fa fa-times"></i> Cancel</a></td>';
+
+        $("#newRow").append(appData);
+        $("#newRow").css("display", "table-row");
+    }
+
+    function removeRow() {
+        $("#newRow").css("display", "none");
+    }
+
+    function replaceRow(id) {
+        $(".edit").removeAttr("disabled", "disabled");
+        $("#ref_subdivisionid-" + id).css("display", "none");
+        $("#subdiv_name-" + id).css("display", "block");
+
+        $("#hdnscodes-" + id).attr("type", "hidden");
+        $("#scodes-" + id).css("display", "block");
+
+        $("#hdnsname-" + id).attr("type", "hidden");
+        $("#sname-" + id).css("display", "block");
+
+        $("#edits-" + id).css("display", "none");
+        $("#cancels-" + id).css("display", "none");
+
+        $("#edit-" + id).show();
+        $("#delete-" + id).show();
     }
 </script>
 

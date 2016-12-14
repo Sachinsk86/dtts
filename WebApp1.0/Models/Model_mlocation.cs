@@ -14,8 +14,8 @@ namespace WebApp1._0.Models
     public int locationid { get; set; }
     public string locationcode { get; set; }
     public string locationname { get; set; }
-    public int ref_zoneid { get; set; }
-    public int ref_circleid { get; set; }
+    public byte ref_zoneid { get; set; }
+    public byte ref_circleid { get; set; }
     public int ref_divisionid { get; set; }
     public int ref_subdivisionid { get; set; }
     public int ref_sectionid { get; set; }

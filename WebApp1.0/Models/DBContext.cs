@@ -15,6 +15,10 @@ namespace WebApp1._0.Models
       Database.Connection.ConnectionString = ConfigurationManager.ConnectionStrings["DBWB"].ConnectionString;
     }
 
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Model_mzone>().ToTable("mzone");
+    }
     // Database Access
     public DbSet<Model_muser> Users { get; set; }
     public DbSet<Model_mzone> Zone { get; set; }
@@ -35,6 +39,11 @@ namespace WebApp1._0.Models
     public DbSet<Model_mdivResult> divResult { get; set; }
     public DbSet<Model_subDivResult> subdivResult { get; set; }
     public DbSet<Model_sectionResult> sectionResult { get; set; }
+    public DbSet<Model_LocationResult> locResult { get; set; }
+    public DbSet<Model_mfeeder> feeder { get; set; }
+    public DbSet<Model_mFeederCategory> fcategory { get; set; }
+    public DbSet<Model_mstationcapacity> StationCapacity { get; set; }
+    public DbSet<Model_Feeder> feeders { get; set; }
     //Added By Anil
     // Database Access
 
@@ -50,18 +59,12 @@ namespace WebApp1._0.Models
     public List<Model_ExcelImport> importtoexcel = new List<Model_ExcelImport>();
 
     //Added By Anil
-    public List<Model_mdesignation> obj_designation = new List<Model_mdesignation>();
-    public List<Model_musersView> obj_userView = new List<Model_musersView>();
-    public List<Model_mcorporate> obj_corporate = new List<Model_mcorporate>();
-    public List<Model_mzoneResult> obj_zoneResult = new List<Model_mzoneResult>();
-    public List<Model_mcircleResult> obj_circlrResult = new List<Model_mcircleResult>();
-    public List<Model_mdivResult> obj_divResult = new List<Model_mdivResult>();
-    public List<Model_subDivResult> obj_subdivResult = new List<Model_subDivResult>();
-    public List<Model_sectionResult> obj_sectionResult = new List<Model_sectionResult>();
+    public DataTable resultVal = new DataTable();
+    public DataTable resultView = new DataTable();
+    public DataTable resultData = new DataTable();
+    public DataTable resultArray = new DataTable();
     //Added By Anil
     public string usermessage { get; set; }
 
-    public DataTable resultData = new DataTable();
-    // Model Objects
   }
 }

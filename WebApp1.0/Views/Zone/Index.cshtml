@@ -1,6 +1,6 @@
 ﻿@model WebApp1._0.Models.DBContext
+@using System.Data;
 @{
-    ViewBag.Title = "Zone";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 1;
 }
@@ -8,98 +8,58 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="row">
-                <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="widget flat radius-bordered">
                         <div class="widget-header bg-blue">
-                            <span class="widget-caption">Zone Form</span>
+                            <span class="widget-caption">Zone</span>
                         </div>
                         <div class="widget-body">
                             <div id="registration-form">
                                 <!--<div class="form-title">User Information</div>-->
-                                @using (Html.BeginForm("SaveZone", "Zone", FormMethod.Post))
-                                {
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form=group">
-                                                <span class="input-icon icon-right">
-                                                    <select id="ref_corporateid" name="ref_corporateid" style="width:100%;" required>
-                                                        <option value="" />Select Corporate
-                                                        @foreach (var corp in Model.obj_corporate)
-                                                        {
-                                                            <option value="@corp.corporateid">@corp.corporatename</option>
-                                                        }
-                                                    </select>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" class="form-control" placeholder="Zone Code" name="zonecode" id="zonecode" required>
-                                                </span>
-                                            </div>
-                                        </div>
+                               @using (Html.BeginForm("Savezone", "Zone", FormMethod.Post))
+                               {
+                                    <div class="table-toolbar">
+                                        <a id="editabledatatable_new" class="btn btn-success" onclick="addNewRow();">
+                                            Add New Zone
+                                        </a>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Corporate</th>
+                                                <th>Zone Code</th>
+                                                <th>Zone Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
 
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" class="form-control" placeholder="Zone Name" name="zonename" id="zonename" required>
-                                                </span>
-                                            </div>
-                                        </div>   
-                                    </div>
-                                    <hr class="wide" />
-                                    <input type="hidden" name="zoneid" id="zoneid" value="" />
-                                    <input type="submit" class="btn btn-success" id="zoneId" value="Submit" name="Submit" />
+                                        <tbody id="newRow">
+                                            @foreach (DataRow row in Model.resultView.Rows)
+                                            {
+                                                <tr>
+                                                    <input type="hidden" name="zoneid" id="zoneid" value="" />
+                                                    <td>
+                                                        <label id="corp_name-@row[0]">@row[4]</label>
+                                                        <spanid id="corp-@row[0]"></spanid>
+                                                    </td>
+                                                    <td id="code-@row[0]">
+                                                        <label id="zcodes-@row[0]">@row[1]</label>
+                                                        <input type="hidden" id="hdnzcodes-@row[0]" value="@row[1]" class="form-control" />
+                                                    </td>
+                                                    <td id="name-@row[0]">
+                                                        <label id="zname-@row[0]">@row[2]</label>
+                                                        <input type="hidden" id="hdnzname-@row[0]" value="@row[2]" class="form-control" />
+                                                    </td>
+                                                    <td id="editdelete-@row[0]">
+                                                        <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editZone(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteZone(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 }
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-xs-12">
-                    <div class="widget">
-                        <div class="widget-header widget-header bg-blue">
-                            <span class="widget-caption">Zones List</span>
-                            <div class="widget-buttons">
-                                <a href="#" data-toggle="maximize">
-                                </a>
-                                <a href="#" data-toggle="collapse">
-                                </a>
-                                <a href="#" data-toggle="dispose">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="widget-body">
-                            <table class="table table-striped table-bordered table-hover" id="simpledatatable">
-                                <thead>
-                                    <tr>
-                                        <th>Sl No.</th>
-                                        <th>Zone Code</th>
-                                        <th>Zone Name</th>
-                                        <th>Corporate Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach(var row in Model.obj_zoneResult)
-                                    {
-                                        <tr>
-                                            <td>@i</td>
-                                            <td>@row.zonecode</td>
-                                            <td>@row.zonename</td>
-                                            <td>@row.corporatename</td>
-                                            <td>
-                                                <a class="btn btn-info btn-xs edit" title="Edit" onclick="editZone(@row.zoneid);"><i class="fa fa-edit"></i></a>
-                                                <a class="btn btn-danger btn-xs delete" title="Delete" onclick="deleteZone(@row.zoneid);"><i class="fa fa-trash-o"></i></a>
-                                            </td>
-                                        </tr>
-                                        i++;
-                                    }
-                                    
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -110,10 +70,31 @@
 
 <script>
     $(document).ready(function () {
+        $('#simpledatatable').DataTable();
         var message = '@Model.usermessage';
         if (message != null && message != "") {
             alert(message);
         }
+
+
+        $('#basicBootstrapForm').bootstrapValidator({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                zonecode: {
+                    row: '.col-xs-4',
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name is required'
+                        }
+                    }
+                }
+            }
+        });
     });
     function editZone(id) {
         $.ajax({
@@ -123,20 +104,28 @@
             datatype: "json",
             success: function (data) {
                 if (data.obj_zone != '') {
-                    $('#zoneId').attr('value', 'Update');
-                    $.each(data.obj_zone, function (key, value) {
-                        $("#zoneid").val(value.zoneid);
-                        $("#zonename").val(value.zonename);
-                        $("#zonecode").val(value.zonecode);
-                        $("#ref_corporateid option[value='" + value.ref_corporateid + "']").attr("selected", "selected");
+                    $(".edit").attr("disabled", "disabled");
+                    $("#zoneid").val(id);
+                    $("#corp-" + id).html("");
+                    $("#corp-" + id).append('<select name="ref_corporateid" id="ref_corporateid-' + id + '" class="form-control" required><option value="">Select Corporate</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select>').show();
+                    $("#corp_name-" + id).css("display", "none");
+                    $.each($.parseJSON(data.obj_zone), function (key, value) {
+                        $("#zcodes-" + id).css("display", "none");
+                        $("#hdnzcodes-" + id).attr("type", "text");
+                        $("#hdnzcodes-" + id).attr("name", "zonecode");
+                        $("#zname-" + id).css("display", "none");
+                        $("#hdnzname-" + id).attr("type", "text");
+                        $("#hdnzname-" + id).attr("name", "zonename");
+                        $("#editdelete-" + id).append('<input type="submit" value="Update" name="Save" id="edits-' + id + '" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
+                        $("#edit-" + id).css("display", "none");
+                        $("#delete-" + id).css("display", "none");
+                        $('#ref_corporateid-' + id + ' option[value=' + value.ref_corporateid + ']').prop("selected", "selected");
                     });
-
                 }
             }
         });
     }
-    function deleteZone(id)
-    {
+    function deleteZone(id) {
         alert("Do you really want to delete this record ?")
         $.ajax({
             type: "post",
@@ -148,6 +137,40 @@
                 location.reload();
             }
         });
+    }
+
+    function addNewRow() {
+        //$("#newRow").html("");
+        var appData = '';
+        appData = '<tr>'+
+                  '<td><select name="ref_corporateid" id="ref_corporateid" class="form-control" required><option value="">Select Corporate</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select></td>' +
+                  '<td><input type="text" name="zonecode" id="zonecode" placeholder="Zone Code" class="form-control" data-bv-notempty="true"  data-bv-notempty-message="The first name is required and cannot be empty" /></td>' +
+                  '<td><input type="text" name="zonename" id="zonename" placeholder="Zone Name" class="form-control" required/></td>' +
+                  '<td><input type="submit" value="Save" class="btn btn-success btn-xs save" name="Save" /> <a class="btn btn-warning btn-xs cancel" onclick="removeRow();"><i class="fa fa-times"></i> Cancel</a></td>'+
+                  '</tr>';
+        $('#newRow tr:first').before(appData);
+
+    }
+
+    function removeRow() {
+        $("#newRow").css("display", "none");
+    }
+    function replaceRow(id) {
+        $(".edit").removeAttr("disabled", "disabled");
+        $("#ref_corporateid-" + id).css("display", "none");
+        $("#corp_name-" + id).css("display", "block");
+
+        $("#hdnzcodes-" + id).attr("type", "hidden");
+        $("#zcodes-" + id).css("display", "block");
+
+        $("#hdnzname-" + id).attr("type", "hidden");
+        $("#zname-" + id).css("display", "block");
+        
+        $("#edits-" + id).css("display", "none");
+        $("#cancels-" + id).css("display", "none");
+       
+        $("#edit-" + id).show();
+        $("#delete-" + id).show();
     }
 </script>
 

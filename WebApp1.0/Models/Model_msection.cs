@@ -11,6 +11,7 @@ namespace WebApp1._0.Models
   public class Model_msection
   {
     [Key]
+    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
     public int sectionid { get; set; }
     public int? sectioncode { get; set; }
     public string sectionname { get; set; }

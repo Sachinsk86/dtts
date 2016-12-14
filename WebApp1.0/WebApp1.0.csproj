@@ -180,11 +180,16 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Master\CircleController.cs" />
+    <Compile Include="Controllers\Master\Datatable.cs" />
     <Compile Include="Controllers\Master\DivisionController.cs" />
+    <Compile Include="Controllers\Master\FeederCategoryController.cs" />
+    <Compile Include="Controllers\Master\FeederController.cs" />
+    <Compile Include="Controllers\Master\FeederTypeController.cs" />
     <Compile Include="Controllers\Master\LocationController.cs" />
     <Compile Include="Controllers\Master\SectionController.cs" />
     <Compile Include="Controllers\Master\SubDivController.cs" />
     <Compile Include="Controllers\Master\ZoneController.cs" />
+    <Compile Include="Controllers\StationCapacityController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -192,17 +197,23 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\int16.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Model_ExcelImport.cs" />
+    <Compile Include="Models\Model_Feeder.cs" />
+    <Compile Include="Models\Model_LocationResult.cs" />
     <Compile Include="Models\Model_mcircle.cs" />
     <Compile Include="Models\Model_mcircleResult.cs" />
     <Compile Include="Models\Model_mcorporate.cs" />
     <Compile Include="Models\Model_mdesignation.cs" />
     <Compile Include="Models\Model_mdivision.cs" />
     <Compile Include="Models\Model_mdivResult.cs" />
+    <Compile Include="Models\Model_mfeeder.cs" />
+    <Compile Include="Models\Model_mFeederCategory.cs" />
     <Compile Include="Models\Model_mlocation.cs" />
     <Compile Include="Models\Model_mrole.cs" />
     <Compile Include="Models\Model_msection.cs" />
+    <Compile Include="Models\Model_mstationcapacity.cs" />
     <Compile Include="Models\Model_msubdivision.cs" />
     <Compile Include="Models\Model_msubstation.cs" />
     <Compile Include="Models\Model_msupplier.cs" />
@@ -996,6 +1007,10 @@
     <Content Include="Views\SubDiv\Index.cshtml" />
     <Content Include="Views\Section\Index.cshtml" />
     <Content Include="Views\Location\Index.cshtml" />
+    <Content Include="Views\FeederType\Index.cshtml" />
+    <Content Include="Views\FeederCategory\Index.cshtml" />
+    <Content Include="Views\StationCapacity\Index.cshtml" />
+    <Content Include="Views\Feeder\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Images\" />

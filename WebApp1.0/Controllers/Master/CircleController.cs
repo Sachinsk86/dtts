@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,27 +16,39 @@ namespace WebApp1._0.Controllers.Master
         // GET: Circle
         public ActionResult Index()
         {
-            DataRowCollection zone = sp.Sp_Generic_Class.GetMultipleRecord("Sp_getZones");
-            DataRowCollection cdata = sp.Sp_Generic_Class.GetMultipleRecord("Sp_getCircleDetails");
-            foreach (DataRow rows in zone)
+            try
             {
-                obj.obj_zone.Add(new Model_mzone
-                {
-                    zoneid = Convert.ToInt32(rows["zoneid"]),
-                    zonename = Convert.ToString(rows["zonename"]),
-                });
+                DataTable zone = sp.Sp_Generic_Class.GetMultipleRecord("Sp_getZones");
+                obj.resultData = zone;
+
+                DataTable cdata = sp.Sp_Generic_Class.GetMultipleRecord("Sp_getCircleDetails");
+                obj.resultView = cdata;
+                //foreach (DataRow rows in zone)
+                //{
+                //    obj.obj_zone.Add(new Model_mzone
+                //    {
+                //        zoneid = Convert.ToByte(rows["zoneid"]),
+                //        zonename = Convert.ToString(rows["zonename"]),
+                //    });
+                //}
+                //foreach (DataRow row in cdata)
+                //{
+                //    obj.obj_circlrResult.Add(new Model_mcircleResult
+                //    {
+                //        circleid = Convert.ToByte(row["circleid"]),
+                //        circlecode = Convert.ToByte(row["circlecode"]),
+                //        circlename = Convert.ToString(row["circlename"]),
+                //        zonename = Convert.ToString(row["zonename"]),
+                //    });
+
+                //}
             }
-            foreach (DataRow row in cdata)
+            catch (Exception ex)
             {
-                obj.obj_circlrResult.Add(new Model_mcircleResult
-                {
-                    circleid = Convert.ToInt32(row["circleid"]),
-                    circlecode = Convert.ToInt32(row["circlecode"]),
-                    circlename = Convert.ToString(row["circlename"]),
-                    zonename = Convert.ToString(row["zonename"]),
-                });
-                
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
             }
+            
             return View(obj);
         }
         [HttpPost]
@@ -43,14 +56,12 @@ namespace WebApp1._0.Controllers.Master
         {
             try
             {
-                if(Request.Form["Submit"] == "Submit")
+                if (Request.Form["Save"] == "Save")
                 {
                     if (c.circleid == 0)
                     {
                         c.createdby = 1;
                         c.createddate = DateTime.Now;
-                        c.modifiedby = 1;
-                        c.modifieddate = DateTime.Now;
                         c.active = true;
                         _db.Entry(c).State = System.Data.Entity.EntityState.Added;
                         _db.SaveChanges();
@@ -60,7 +71,7 @@ namespace WebApp1._0.Controllers.Master
                         }
                     }
                 }
-                else if (Request.Form["Submit"] == "Update")
+                else if (Request.Form["Save"] == "Update")
                 {
                     c.modifiedby = 1;
                     c.modifieddate = DateTime.Now;
@@ -84,27 +95,42 @@ namespace WebApp1._0.Controllers.Master
         }
         public ActionResult EditCircle(int id)
         {
-            var list = new Dictionary<string, object>();
-            list.Add("circleId", id);
-            DataRowCollection circle = sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_GetCircleOnId", list);
-            foreach (DataRow rows in circle)
+            DataTable circle = new DataTable();
+            try
             {
-                obj.obj_circle.Add(new Model_mcircle
+                if (id > 0)
                 {
-                    circleid = Convert.ToInt32(rows["circleid"]),
-                    circlecode = Convert.ToInt32(rows["circlecode"]),
-                    circlename = Convert.ToString(rows["circlename"]),
-                    ref_zoneid = Convert.ToInt32(rows["ref_zoneid"]),
-                });
+                    var list = new Dictionary<string, object>();
+                    list.Add("circleId", id);
+                    circle = sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_GetCircleOnId", list);
+                }
             }
-            return Json(new { obj_circle = obj.obj_circle }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
+            }
+            obj.resultData = circle;
+            return Json(new { obj_circle = JsonConvert.SerializeObject(obj.resultData) }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DeleteCircle(int id)
         {
-            var list = new Dictionary<string, object>();
-            list.Add("circleId", id);
-            sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_deleteCircleOnId",list);
+            try 
+            {
+                if (id >0)
+                {
+                    var list = new Dictionary<string, object>();
+                    list.Add("circleId", id);
+                    sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_deleteCircleOnId", list);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
+            }
             return Json (new {},JsonRequestBehavior.AllowGet);
         }
     }

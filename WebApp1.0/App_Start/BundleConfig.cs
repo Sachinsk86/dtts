@@ -32,7 +32,8 @@ namespace WebApp1._0
                 "~/Content/assets/js/datatable/ZeroClipboard.js",
                 "~/Content/assets/js/datatable/dataTables.tableTools.min.js",
                 "~/Content/assets/js/datatable/dataTables.bootstrap.min.js",
-                "~/Content/assets/js/datatable/datatables-init.js"
+                "~/Content/assets/js/datatable/datatables-init.js",
+                "~/Content/assets/js/validation/bootstrapValidator.js"
                 ));
 
       bundles.Add(new StyleBundle("~/Content/css").Include(

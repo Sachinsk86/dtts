@@ -1,6 +1,6 @@
 ﻿@model WebApp1._0.Models.DBContext
+@using System.Data;
 @{
-    ViewBag.Title = "Circle";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 1;
 }
@@ -9,95 +9,58 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="row">
-                <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="widget flat radius-bordered">
                         <div class="widget-header bg-blue">
-                            <span class="widget-caption">Circle Form</span>
+                            <span class="widget-caption">Circle</span>
                         </div>
                         <div class="widget-body">
                             <div id="registration-form">
                                 <!--<div class="form-title">User Information</div>-->
                                 @using (Html.BeginForm("SaveCircle", "Circle", FormMethod.Post))
                                 {
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form=group">
-                                                <span class="input-icon icon-right">
-                                                    <select id="ref_zoneid" name="ref_zoneid" style="width:100%;" required>
-                                                        <option value="" />Select Zone
-                                                        @foreach (var zone in Model.obj_zone)
-                                                        {
-                                                            <option value="@zone.zoneid">@zone.zonename</option>
-                                                        }
-                                                    </select>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" class="form-control" placeholder="Cicle Code" name="circlecode" id="circlecode" required>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        
+                                    <div class="table-toolbar">
+                                        <a id="editabledatatable_new" class="btn btn-success" onclick="addNewRow();">
+                                            Add New Circle
+                                        </a>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" class="form-control" placeholder="Circle Name" name="circlename" id="circlename" required>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr class="wide" />
-                                    <input type="hidden" name="circleid" id="circleid" value="" />
-                                    <input type="submit" class="btn btn-success" id="circleId" value="Submit" name="Submit" />
+                                    <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+                                        <thead>
+                                            <tr role="row">
+                                                <th>Zone Name</th>
+                                                <th>Circle Code</th>
+                                                <th>Circle Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach (DataRow row in Model.resultView.Rows)
+                                            {
+                                                <tr id="newRow">
+                                                    <input type="hidden" name="circleid" id="circleid" value="" />
+                                                    <td>
+                                                        <label id="zonename-@row[0]">@row[4]</label>
+                                                        <span id="zone-@row[0]"></span>
+                                                    </td>
+                                                    <td id="code-@row[0]">
+                                                        <label id="ccode-@row[0]">@row[1]</label>
+                                                        <input type="hidden" id="hdnccodes-@row[0]" value="@row[1]" class="form-control" />
+                                                    </td>
+                                                    <td id="name-@row[0]">
+                                                        <label id="cname-@row[0]">@row[2]</label>
+                                                        <input type="hidden" id="hdncname-@row[0]" value="@row[2]" class="form-control" />
+                                                    </td>
+                                                    <td id="editdelete-@row[0]">
+                                                        <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editCircle(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteCircle(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                       </tbody>
+                                    </table>
                                 }
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-xs-12">
-                    <div class="widget">
-                        <div class="widget-header widget-header bg-blue">
-                            <span class="widget-caption">Circle List</span>
-                            <div class="widget-buttons">
-                                <a href="#" data-toggle="maximize">
-                                </a>
-                                <a href="#" data-toggle="collapse">
-                                </a>
-                                <a href="#" data-toggle="dispose">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="widget-body">
-                            <table class="table table-striped table-bordered table-hover" id="simpledatatable">
-                                <thead>
-                                    <tr>
-                                        <th>Sl No.</th>
-                                        <th>Zone Name</th>
-                                        <th>Circle Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var row in Model.obj_circlrResult)
-                                    {
-                                        <tr>
-                                            <td>@i</td>
-                                            <td>@row.zonename</td>
-                                            <td>@row.circlename</td>
-                                            <td>
-                                                <a class="btn btn-info btn-xs edit" title="Edit" onclick="editCircle(@row.circleid);"><i class="fa fa-edit"></i></a>
-                                                <a class="btn btn-danger btn-xs delete" title="Delete" onclick="deleteCircle(@row.circleid);"><i class="fa fa-trash-o"></i></a>
-                                            </td>
-                                        </tr>
-                                        i++;
-                                    }
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -108,14 +71,15 @@
 
 <script>
     $(document).ready(function () {
+        $('#simpledatatable').DataTable();
         var message = '@Model.usermessage';
         if (message != null && message != "") {
             alert(message);
         }
     });
 
-    function editCircle(id)
-    {
+    function editCircle(id) {
+        alert(id);
         $.ajax({
             type: "post",
             url: '@Url.Action("EditCircle", "Circle")',
@@ -123,20 +87,28 @@
             datatype: "json",
             success: function (data) {
                 if (data.obj_circle != '') {
-                    $('#circleId').attr('value', 'Update');
-                    $.each(data.obj_circle, function (key, value) {
-                        $("#circleid").val(value.circleid);
-                        $("#circlename").val(value.circlename);
-                        $("#circlecode").val(value.circlecode);
-                        $("#ref_zoneid option[value='" + value.ref_zoneid + "']").attr("selected", "selected");
+                    $(".edit").attr("disabled", "disabled");
+                    $("#circleid").val(id);
+                    $("#zone-"+id).html("");
+                    $("#zone-" + id).append('<select name="ref_zoneid" id="ref_zoneid-' + id + '" class="form-control" required><option value="">Select Corporate</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select>').show();
+                    $("#zonename-" + id).css("display", "none");
+                    $.each($.parseJSON(data.obj_circle), function (key, value) {
+                        $("#ccode-" + id).css("display", "none");
+                        $("#hdnccodes-" + id).attr("type", "text");
+                        $("#hdnccodes-" + id).attr("name", "zonecode");
+                        $("#cname-" + id).css("display", "none");
+                        $("#hdncname-" + id).attr("type", "text");
+                        $("#hdncname-" + id).attr("name", "zonename");
+                        $("#editdelete-" + id).append('<input type="submit" value="Update" name="Save" id="edits-' + id + '" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
+                        $("#edit-" + id).css("display", "none");
+                        $("#delete-" + id).css("display", "none");
+                        $('#ref_zoneid-' + id + ' option[value=' + value.ref_zoneid + ']').prop("selected", "selected");
                     });
-
                 }
             }
         });
     }
-    function deleteCircle(id)
-    {
+    function deleteCircle(id) {
         alert("Do you really want to delete this record ?")
         $.ajax({
             type: "post",
@@ -148,6 +120,39 @@
                 location.reload();
             }
         });
+    }
+
+    function addNewRow() {
+        $("#newRow").html("");
+        var appData = '';
+        appData = '<td><select name="ref_zoneid" id="ref_zoneid" class="form-control" required><option value="">Select Zone</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select></td>' +
+                  '<td><input type="text" name="circlecode" id="circlecode" placeholder="Circle Code" class="form-control" required/></td>' +
+                  '<td><input type="text" name="circlename" id="circlename" placeholder="Circle Name" class="form-control" required/></td>' +
+                  '<td><input type="submit" value="Save" class="btn btn-success btn-xs save" name="Save" /> <a class="btn btn-warning btn-xs cancel" onclick="removeRow();"><i class="fa fa-times"></i> Cancel</a></td>';
+        $("#newRow").append(appData);
+        $("#newRow").css("display", "table-row");
+    }
+
+    function removeRow() {
+        $("#newRow").css("display", "none");
+    }
+
+    function replaceRow(id) {
+        $(".edit").removeAttr("disabled", "disabled");
+        $("#ref_zoneid-" + id).css("display", "none");
+        $("#zonename-" + id).css("display", "block");
+
+        $("#hdnccodes-" + id).attr("type", "hidden");
+        $("#ccode-" + id).css("display", "block");
+
+        $("#hdncname-" + id).attr("type", "hidden");
+        $("#cname-" + id).css("display", "block");
+
+        $("#edits-" + id).css("display", "none");
+        $("#cancels-" + id).css("display", "none");
+
+        $("#edit-" + id).show();
+        $("#delete-" + id).show();
     }
 </script>
 

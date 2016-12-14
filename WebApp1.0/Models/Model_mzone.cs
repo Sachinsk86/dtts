@@ -11,10 +11,11 @@ namespace WebApp1._0.Models
   public class Model_mzone
   {
     [Key]
-    public int zoneid { get; set; }
-    public int zonecode { get; set; }
+    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    public byte zoneid { get; set; }
+    public byte zonecode { get; set; }
     public string zonename { get; set; }
-    public int ref_corporateid { get; set; }
+    public byte ref_corporateid { get; set; }
     public int createdby { get; set; }
     public DateTime createddate  { get; set; }
     public int? modifiedby { get; set; }

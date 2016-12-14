@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,24 +16,36 @@ namespace WebApp1._0.Controllers.Master
         // GET: Section
         public ActionResult Index()
         {
-            DataRowCollection subdiv = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetSubDivResult");
-            DataRowCollection secRes = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetSectionResult");
-            foreach (DataRow rows in subdiv)
+            try 
             {
-                obj.obj_subdivResult.Add(new Model_subDivResult
-                {
-                    subdivisionid = Convert.ToInt32(rows["subdivisionid"]),
-                    subdivisionname = Convert.ToString(rows["subdivisionname"]),
-                });
+                DataTable subdiv = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetSubDivResult");
+                obj.resultData = subdiv;
+
+                DataTable secRes = sp.Sp_Generic_Class.GetMultipleRecord("Sp_GetSectionResult");
+                obj.resultView = secRes;
+                //foreach (DataRow rows in subdiv)
+                //{
+                //    obj.obj_subdivResult.Add(new Model_subDivResult
+                //    {
+                //        subdivisionid = Convert.ToInt32(rows["subdivisionid"]),
+                //        subdivisionname = Convert.ToString(rows["subdivisionname"]),
+                //    });
+                //}
+                //foreach (DataRow sec in secRes)
+                //{
+                //    obj.obj_sectionResult.Add(new Model_sectionResult
+                //    {
+                //        sectionid = Convert.ToInt32(sec["sectionid"]),
+                //        sectionname = Convert.ToString(sec["sectionname"]),
+                //        sectioncode = Convert.ToInt32(sec["sectioncode"]),
+                //        subdivisionname = Convert.ToString(sec["subdivisionname"]),
+                //    });
+                //}
             }
-            foreach (DataRow sec in secRes)
+            catch (Exception ex)
             {
-                obj.obj_sectionResult.Add(new Model_sectionResult
-                {
-                    sectionid = Convert.ToInt32(sec["sectionid"]),
-                    sectionname = Convert.ToString(sec["sectionname"]),
-                    subdivisionname = Convert.ToString(sec["subdivisionname"]),
-                });
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
             }
             return View(obj);
         }
@@ -42,7 +55,7 @@ namespace WebApp1._0.Controllers.Master
             
             try
             {
-                if (Request.Form["Submit"] == "Submit") 
+                if (Request.Form["Save"] == "Save") 
                 {
                     if (sec.sectionid == 0)
                     {
@@ -59,7 +72,7 @@ namespace WebApp1._0.Controllers.Master
                         }
                     }
                 }
-                else if (Request.Form["Submit"] == "Update")
+                else if (Request.Form["Save"] == "Update")
                 {
                     sec.modifiedby = 1;
                     sec.modifieddate = DateTime.Now;
@@ -84,21 +97,23 @@ namespace WebApp1._0.Controllers.Master
         }
         public ActionResult EditSection(int id)
         {
-            var list = new Dictionary<string,object>();
-            list.Add("secId",id);
-            DataRowCollection section = sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_GetSectionsOnId", list);
-            foreach (DataRow rows in section)
+            DataTable section = new DataTable();
+            try
             {
-                obj.obj_sectionResult.Add(new Model_sectionResult 
+                if (id > 0)
                 {
-                    sectionid = Convert.ToInt32(rows["sectionid"]),
-                    sectionname = Convert.ToString(rows["sectionname"]),
-                    sectioncode = Convert.ToInt32(rows["sectioncode"]),
-                    subdivisionname = Convert.ToString(rows["subdivisionname"]),
-                    ref_subdivisionid = Convert.ToInt32(rows["ref_subdivisionid"]),
-                });
+                    var list = new Dictionary<string, object>();
+                    list.Add("secId", id);
+                     section = sp.Sp_Generic_Class.GetMultipleRecordByParam("Sp_GetSectionsOnId", list);
+                }
             }
-            return Json(new { obj_sec = obj.obj_sectionResult }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                obj.usermessage = ex.Message;
+                Console.Write(ex.Message);
+            }
+            obj.resultData = section;
+            return Json(new { obj_section = JsonConvert.SerializeObject(obj.resultData) }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DeleteSec(int id)
