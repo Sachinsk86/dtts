@@ -175,6 +175,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\Master\EntityTypeController.cs" />
+    <Compile Include="Controllers\Master\DtrCapacityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageReaderController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Controllers\Master\FeederController.cs" />
     <Compile Include="Controllers\Master\FeederTypeController.cs" />
     <Compile Include="Controllers\Master\LocationController.cs" />
+    <Compile Include="Controllers\Master\SchemeController.cs" />
     <Compile Include="Controllers\Master\SectionController.cs" />
     <Compile Include="Controllers\Master\SubDivController.cs" />
     <Compile Include="Controllers\Master\ZoneController.cs" />
@@ -208,10 +211,13 @@
     <Compile Include="Models\Model_mdesignation.cs" />
     <Compile Include="Models\Model_mdivision.cs" />
     <Compile Include="Models\Model_mdivResult.cs" />
+    <Compile Include="Models\Model_mDtrCapacity.cs" />
+    <Compile Include="Models\Model_mEntityType.cs" />
     <Compile Include="Models\Model_mfeeder.cs" />
     <Compile Include="Models\Model_mFeederCategory.cs" />
     <Compile Include="Models\Model_mlocation.cs" />
     <Compile Include="Models\Model_mrole.cs" />
+    <Compile Include="Models\Model_mScheme.cs" />
     <Compile Include="Models\Model_msection.cs" />
     <Compile Include="Models\Model_mstationcapacity.cs" />
     <Compile Include="Models\Model_msubdivision.cs" />
@@ -1011,11 +1017,15 @@
     <Content Include="Views\FeederCategory\Index.cshtml" />
     <Content Include="Views\StationCapacity\Index.cshtml" />
     <Content Include="Views\Feeder\Index.cshtml" />
+    <Content Include="Views\DtrCapacity\Index.cshtml" />
+    <Content Include="Views\EntityType\Index.cshtml" />
+    <Content Include="Views\Scheme\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Images\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Global\" />
+    <Folder Include="Views\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -51,9 +51,15 @@
                                                         <label id="cname-@row[0]">@row[2]</label>
                                                         <input type="hidden" id="hdncname-@row[0]" value="@row[2]" class="form-control" />
                                                     </td>
-                                                    <td id="editdelete-@row[0]">
-                                                        <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editCircle(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
-                                                        <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteCircle(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
+                                                    <td>
+                                                        <span id="editdelete-@row[0]">
+                                                            <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editCircle(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
+                                                            <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteCircle(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
+                                                        </span>
+                                                        <span id="editCancel-@row[0]">
+
+                                                        </span>
+                                                        
                                                     </td>
                                                 </tr>
                                             }
@@ -79,7 +85,6 @@
     });
 
     function editCircle(id) {
-        alert(id);
         $.ajax({
             type: "post",
             url: '@Url.Action("EditCircle", "Circle")',
@@ -88,6 +93,7 @@
             success: function (data) {
                 if (data.obj_circle != '') {
                     $(".edit").attr("disabled", "disabled");
+                    $("#editCancel-" + id).html("");
                     $("#circleid").val(id);
                     $("#zone-"+id).html("");
                     $("#zone-" + id).append('<select name="ref_zoneid" id="ref_zoneid-' + id + '" class="form-control" required><option value="">Select Corporate</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select>').show();
@@ -99,9 +105,8 @@
                         $("#cname-" + id).css("display", "none");
                         $("#hdncname-" + id).attr("type", "text");
                         $("#hdncname-" + id).attr("name", "zonename");
-                        $("#editdelete-" + id).append('<input type="submit" value="Update" name="Save" id="edits-' + id + '" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
-                        $("#edit-" + id).css("display", "none");
-                        $("#delete-" + id).css("display", "none");
+                        $("#editCancel-" + id).append('<input type="submit" value="Update" name="Save" id="edits-'+id+'" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
+                        $("#editdelete-"+id).css("display","none");
                         $('#ref_zoneid-' + id + ' option[value=' + value.ref_zoneid + ']').prop("selected", "selected");
                     });
                 }
@@ -148,11 +153,8 @@
         $("#hdncname-" + id).attr("type", "hidden");
         $("#cname-" + id).css("display", "block");
 
-        $("#edits-" + id).css("display", "none");
-        $("#cancels-" + id).css("display", "none");
-
-        $("#edit-" + id).show();
-        $("#delete-" + id).show();
+        $("#editCancel-" + id).css("display", "none");
+        $("#editdelete-" + id).css("display", "block");
     }
 </script>
 

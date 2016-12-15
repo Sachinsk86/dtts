@@ -44,6 +44,9 @@ namespace WebApp1._0.Models
     public DbSet<Model_mFeederCategory> fcategory { get; set; }
     public DbSet<Model_mstationcapacity> StationCapacity { get; set; }
     public DbSet<Model_Feeder> feeders { get; set; }
+    public DbSet<Model_mDtrCapacity> dtrCapacity { get; set; }
+    public DbSet<Model_mEntityType> entityType { get; set; }
+    public DbSet<Model_mScheme> scheme { get; set; }
     //Added By Anil
     // Database Access
 

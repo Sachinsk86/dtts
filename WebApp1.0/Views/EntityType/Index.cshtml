@@ -1,0 +1,137 @@
+﻿@model WebApp1._0.Models.DBContext
+@using System.Data;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+}
+
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="widget flat radius-bordered">
+                        <div class="widget-header bg-blue">
+                            <span class="widget-caption">Entity</span>
+                        </div>
+                        <div class="widget-body">
+                            <div id="registration-form">
+                                @using (Html.BeginForm("SaveEntity", "EntityType", FormMethod.Post))
+                                {
+                                    <div class="table-toolbar">
+                                        <a id="editabledatatable_new" class="btn btn-success" onclick="addNewRow();">
+                                            Add Entity
+                                        </a>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+                                        <thead>
+                                            <tr role="row">
+                                                <th>Entity Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody id="newRow">
+                                            @foreach (DataRow row in Model.resultData.Rows)
+                                            {
+                                                <tr>
+                                                    <input type="hidden" name="entitytypeid" id="entitytypeid" value="" />
+                                                    <td>
+                                                        <label id="ecode-@row[0]" name="dtrcapacity">@row[1]</label>
+                                                        <input type="hidden" id="hdnecodes-@row[0]" value="@row[1]" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <span id="editdelete-@row[0]">
+                                                            <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editEntity(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
+                                                            <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteEntity(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
+                                                        </span>
+                                                        <span id="editCancel-@row[0]">
+
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#simpledatatable').DataTable();
+        if ('@Model.usermessage' != '') {
+            var message = '@Model.usermessage';
+            if (message != null && message != "") {
+                alert(message);
+            }
+        }
+
+    });
+
+    function editEntity(id) {
+        alert(id);
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("editEntity", "EntityType")',
+            data: { id: id },
+            datatype: "json",
+            success: function (data) {
+                if (data.obj_dtrcap != '') {
+                    $("#editCancel-" + id).html("");
+                    $("#entitytypeid").val(id);
+                    $.each($.parseJSON(data.obj_dtrcap), function (key, value) {
+                        $("#ecode-" + id).css("display", "none");
+                        $("#hdnecodes-" + id).attr("type", "text");
+                        $("#hdnecodes-" + id).attr("name", "entityname");
+
+                        $("#editCancel-" + id).append('<input type="submit" value="Update" name="Save" id="edits-'+id+'" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
+                        $("#editdelete-"+id).css("display","none");
+                    })
+                }
+            }
+        });
+    }
+    function deleteEntity(id) {
+        alert("Do you really want to delete this record ?")
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("deleteEntity", "EntityType")',
+            data: { id: id },
+            datatype: "json",
+            success: function (data) {
+                alert("Record successfully deleted");
+                location.reload();
+            }
+        });
+    }
+
+    function addNewRow() {
+        var appData = '';
+        appData = '<tr>' +
+                  '<td><input type="text" name="entityname" id="entityname" placeholder="Entity Name" class="form-control" required/></td>' +
+                  '<td><input type="submit" value="Save" class="btn btn-success btn-xs save" name="Save" /> <a class="btn btn-warning btn-xs cancel" onclick="removeRow();"><i class="fa fa-times"></i> Cancel</a></td>' +
+                  '</tr>';
+        $('#newRow tr:first').before(appData);
+    }
+
+    function removeRow() {
+        $('#simpledatatable tbody tr:first').css("display", "none");
+    }
+    function replaceRow(id)
+    {
+        $(".edit").removeAttr("disabled", "disabled");
+
+        $("#hdnecodes-" + id).attr("type", "hidden");
+        $("#ecode-" + id).css("display", "block");
+
+        $("#editCancel-" + id).css("display", "none");
+        $("#editdelete-" + id).css("display", "block");
+    }
+</script>

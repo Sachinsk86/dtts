@@ -56,6 +56,9 @@
                                                             <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editSection(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
                                                             <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteSection(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
                                                         </span>
+                                                        <span id="editCancel-@row[0]">
+
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             }
@@ -89,6 +92,7 @@
                 if (data.obj_section != '') {
                     if (data.obj_section != '') {
                         $(".edit").attr("disabled", "disabled");
+                        $("#editCancel-" + id).html("");
                         $("#sectionid").val(id);
                         $("#subdiv-" + id).html("");
                         $("#subdiv-" + id).append('<select name="ref_subdivisionid" id="ref_subdivisionid-' + id + '" class="form-control" required><option value="">Select Corporate</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select>').show();
@@ -100,9 +104,8 @@
                             $("#sname-" + id).css("display", "none");
                             $("#hdnsname-" + id).attr("type", "text");
                             $("#hdnsname-" + id).attr("name", "zonename");
-                            $("#editdelete-" + id).append('<input type="submit" value="Update" name="Save" id="edits-' + id + '" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
-                            $("#edit-" + id).css("display", "none");
-                            $("#delete-" + id).css("display", "none");
+                            $("#editCancel-" + id).append('<input type="submit" value="Update" name="Save" id="edits-'+id+'" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
+                            $("#editdelete-"+id).css("display","none");
                             $('#ref_subdivisionid-' + id + ' option[value=' + value.ref_subdivisionid + ']').prop("selected", "selected");
                         });
                     }
@@ -151,11 +154,8 @@
         $("#hdnsname-" + id).attr("type", "hidden");
         $("#sname-" + id).css("display", "block");
 
-        $("#edits-" + id).css("display", "none");
-        $("#cancels-" + id).css("display", "none");
-
-        $("#edit-" + id).show();
-        $("#delete-" + id).show();
+        $("#editCancel-" + id).css("display", "none");
+        $("#editdelete-" + id).css("display", "block");
     }
 </script>
 

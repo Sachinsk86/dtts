@@ -50,9 +50,14 @@
                                                         <label id="zname-@row[0]">@row[2]</label>
                                                         <input type="hidden" id="hdnzname-@row[0]" value="@row[2]" class="form-control" />
                                                     </td>
-                                                    <td id="editdelete-@row[0]">
-                                                        <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editZone(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
-                                                        <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteZone(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
+                                                    <td>
+                                                        <span id="editdelete-@row[0]">
+                                                            <a class="btn btn-info btn-xs edit" id="edit-@row[0]" onclick="editZone(@row[0]);"><i class="fa fa-edit"></i> Edit</a>
+                                                            <a class="btn btn-danger btn-xs delete" id="delete-@row[0]" onclick="deleteZone(@row[0]);"><i class="fa fa-trash-o"></i> Delete</a>
+                                                        </span>
+                                                        <span id="editCancel-@row[0]">
+
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             }
@@ -105,6 +110,7 @@
             success: function (data) {
                 if (data.obj_zone != '') {
                     $(".edit").attr("disabled", "disabled");
+                    $("#editCancel-" + id).html("");
                     $("#zoneid").val(id);
                     $("#corp-" + id).html("");
                     $("#corp-" + id).append('<select name="ref_corporateid" id="ref_corporateid-' + id + '" class="form-control" required><option value="">Select Corporate</option>@foreach(DataRow corp in Model.resultData.Rows){<option value="@corp[0]">@corp[2]</option>}</select>').show();
@@ -116,9 +122,8 @@
                         $("#zname-" + id).css("display", "none");
                         $("#hdnzname-" + id).attr("type", "text");
                         $("#hdnzname-" + id).attr("name", "zonename");
-                        $("#editdelete-" + id).append('<input type="submit" value="Update" name="Save" id="edits-' + id + '" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
-                        $("#edit-" + id).css("display", "none");
-                        $("#delete-" + id).css("display", "none");
+                        $("#editCancel-" + id).append('<input type="submit" value="Update" name="Save" id="edits-'+id+'" class="btn btn-success btn-xs save" /> <a class="btn btn-warning btn-xs" id="cancels-' + id + '" cancel" onclick="replaceRow(' + id + ');"><i class="fa fa-times"></i> Cancel</a>').show();
+                        $("#editdelete-"+id).css("display","none");
                         $('#ref_corporateid-' + id + ' option[value=' + value.ref_corporateid + ']').prop("selected", "selected");
                     });
                 }
@@ -166,11 +171,8 @@
         $("#hdnzname-" + id).attr("type", "hidden");
         $("#zname-" + id).css("display", "block");
         
-        $("#edits-" + id).css("display", "none");
-        $("#cancels-" + id).css("display", "none");
-       
-        $("#edit-" + id).show();
-        $("#delete-" + id).show();
+        $("#editCancel-" + id).css("display", "none");
+        $("#editdelete-" + id).css("display", "block");
     }
 </script>
 
